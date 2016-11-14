@@ -3,4 +3,10 @@ SAND Strengths and Difficulties Questionaire
 
 25 Questions designed to assess Emotional, Conduct, Hyperactivity, Peer and Prosocial levels.
 
+This project aims to provide the current paperbased questionaire, in an easily sharable program using if possible only the standard library.
 
+The project takes in questionaire answers via radio buttons and computes the results, before finally exporting to a PDF report.
+
+This project is far from complete and should not be used in its current state.  Pull requests are welcomed.
+
+- Simon Holland (aka Inyoka on here and StackOverflow)
