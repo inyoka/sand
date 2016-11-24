@@ -1,98 +1,68 @@
 #!/usr/bin/env python3 -tt
-
 import tkinter as tk
-import collections
-import pprint
+import dicttools
 
-
-
-def printDict(dictionary):
-    for key, item in dictionary.items():
-        print(key)
-        for attribute, value in dictionary.items():
-            print('{} : {}'.format(attribute, value))
-    '''
-    for x in dictionary:
-        print (x)
-        for y in dictionary[x]:
-            print (y,':',dictionary[x][y])
-    '''
-
-class Form(tk.Frame):
-    def __init__(self, parent):
-        tk.Frame.__init__(self, parent)
+class MainApplication(tk.Frame):
+    def __init__(self, parent, *args, **kwargs):
+        tk.Frame.__init__(self)
+        information = Info()
         self.parent = parent
+        self.header = Header(self, information)
+        self.questionnaire = Questionnaire(self, information)
+        self.footer = Footer(self, information)
+        self.header.pack(side='top', fill='x', expand=True)
+        self.questionnaire.pack(side='top', fill='x', expand=True)
+        self.footer.pack(side='bottom', fill='x', expand=True) 
+
+class Info():
+    def __init__(self):
         file = open('questions.txt')
-        questionlist = file.readlines()
-        file.seek(0)
-        width = len(max(file, key=len))
+        self.width = len(max(file, key=len))
+        self.traits = {'emotional' : [3, 8, 13, 16, 24], 
+                        'conduct' : [5,7, 12, 18, 22], 
+                        'hyperactivity' : [2, 10, 15, 21, 25], 
+                        'peer' : [6, 11, 14, 19, 23], 
+                        'prosocial' : [1, 4, 9, 17, 20]}
+        self.answers = []
+        self.incomplete = set()
+        self.name = tk.StringVar()
+        self.finalScore = {}
+
+
+class Header(tk.Frame):
+    def __init__(self, parent, information):
+        super(Header, self).__init__()
+        self.parent = parent
+        self.info = information
 
         title = tk.Label(self, text="Strengths & Difficulties")
         title.pack()
+
+        clientDetails = tk.Frame(self)
+        nameLabel = tk.Label(clientDetails, text='Name or Ref. Number (optional) : ').grid(row=0, column=0)
+        nameEntry = tk.Entry(clientDetails, textvariable=self.info.name).grid(row=0, column=1)
+        clientDetails.pack(fill='both', expand=True, side=tk.TOP)
+
+
         header = tk.Frame(self)
-        header.pack(fill='both', expand=True, side=tk.TOP)
-        headings = [' '*width*2,'?', 'N', 'M', 'Y']
+        headings = [' '*self.info.width*2,'?', 'N', 'M', 'Y']
         for col, heading in enumerate(headings):
             labelheading = tk.Label(header, text=heading, justify=tk.RIGHT)
             labelheading.grid(row=1, column=col, sticky=tk.E)
-        self.questions = Questions(self, questionlist)
-        self.questions.pack()
-        done_button = tk.Button(self, text="Done", command=self.done)
-        done_button.pack()
+        header.pack(fill='both', expand=True, side=tk.TOP)
 
-    def convertToInts(self):
-        self.questions.answers = [ int(x.get()) for x in self.questions.answers ]
-
-    def reverseAnswers(self):
-        results = []
-        reverse = [7, 11, 14, 21, 25]
-        for no, answer in enumerate(self.questions.answers):
-            if no in reverse:
-                if answer == 0:
-                    answer = 2
-                elif answer == 2:
-                    answer = 0
-            results.append(answer)
-        self.questions.answers = [x  for x in results]
-
-    def done(self):
-        # For Dicts .keys prints keys, Dict[key] prints content, .items prints both 
-        self.convertToInts()
-        self.reverseAnswers()
-        traits = {}
-        traits['emotional'] = [3, 8, 13, 16, 24]
-        traits['conduct'] = [5,7, 12, 18, 22]
-        traits['hyperactivity'] = [2, 10, 15, 21, 25]
-        traits['peer'] = [6, 11, 14, 19, 23]
-        traits['prosocial'] = [1, 4, 9, 17, 20]
-        # Create dict by numbering the myresults    
-        answerDict = dict(zip(range(1,26), self.questions.answers))
-        resultsDict = dict()
-        for trait in traits.keys():
-            print(trait)
-            for number in traits[trait]:
-                if answerDict[number] >= 0:
-                    
-                    print('Printed %s by traits:' % trait, answerDict[number])
-                    if trait in resultsDict:
-                        resultsDict[trait] = answerDict[number]
-                    else:
-                        resultsDict[trait] = answerDict[number]
-        print({k:sum(v) for k,v in resultsDict.items()})
-        for k,v in resultsDict.items():
-            print(k:sum(v)) 
-        root.quit()
-
-class Questions(tk.Frame):
-    def __init__(self, master, questionlist):
-        tk.Frame.__init__(self, master)
-        self.questionlist = questionlist
+class Questionnaire(tk.Frame):
+    def __init__(self, master, information):
+        super(Questionnaire, self).__init__()
+        self.info = information
+        self.master = master
         self.askQuestions()
 
     def askQuestions(self):
-        self.answers = []
-        for number, question in enumerate(self.questionlist, 1):
-            var = tk.IntVar(value = 2)
+        file = open('questions.txt')
+        questionlist = file.readlines()
+        for number, question in enumerate(questionlist, 1):
+            var = tk.IntVar(value = -1)
             width = 5
             line = '{:5}'.format(number, fill=' ') + ' : ' + question.strip()
             label = tk.Label(self, text=line)
@@ -105,10 +75,58 @@ class Questions(tk.Frame):
                 if number % 5 == 0:
                     button.configure(background='#d0d0d0')
                 button.grid(row = number, column = answer+2)
-            self.answers.append(var)
+            self.info.answers.append(var)
+
+class Footer(tk.Frame):
+    def __init__(self, parent, information):
+        super(Footer, self).__init__()
+        self.info = information
+        done_button = tk.Button(self, text="Done", command=self.createReport)
+        done_button.pack()
+
+    def convertToInts(self):
+        self.info.answers = [ int(x.get()) for x in self.info.answers ]
+
+    def reverseAnswers(self):
+        results = []
+        reverse = [7, 11, 14, 21, 25]
+        for no, answer in enumerate(self.info.answers, 1):
+            if no in reverse:
+                if answer == 0:
+                    answer = 2
+                elif answer == 2:
+                    answer = 0
+            results.append(answer)
+        self.info.answers = [x  for x in results]
+
+    def addScore(self, trait):
+        self.lineNumbers = self.info.traits[trait]
+        score = 0
+        for item in self.lineNumbers:
+            if self.info.answers[item-1] > -1:
+                score = score + self.info.answers[item-1]
+            if self.info.answers[item-1] < 0:
+                self.info.incomplete.add(trait)
+        return(score)
+
+    def sumTraits(self):
+        for trait in self.info.traits.keys():
+            self.info.finalScore[trait] = self.addScore(trait)
+    
+    def printResults(self):
+        print('Name : ', self.info.name.get())
+        dicttools.dump(self.info.finalScore)
+        print(self.info.incomplete)
+
+    def createReport(self):
+        # For Dicts .keys prints keys, Dict[key] prints content, .items prints both 
+        self.convertToInts()
+        self.reverseAnswers()
+        self.sumTraits()
+        self.printResults()
+        root.quit()
 
 if __name__ == '__main__':
     root = tk.Tk()
     MainApplication(root).pack(side='top', fill='both', expand=True)
-    #Form(root).pack(side='top', fill='both', expand=True)
     root.mainloop()
