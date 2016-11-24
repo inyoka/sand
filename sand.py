@@ -1,6 +1,11 @@
 #!/usr/bin/env python3 -tt
 import tkinter as tk
+from tkinter.filedialog import asksaveasfile
 import dicttools
+import csv
+import sys
+import datetime
+import time
 
 class MainApplication(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
@@ -39,7 +44,7 @@ class Header(tk.Frame):
         title.pack()
 
         clientDetails = tk.Frame(self)
-        nameLabel = tk.Label(clientDetails, text='Name or Ref. Number (optional) : ').grid(row=0, column=0)
+        nameLabel = tk.Label(clientDetails, text='Name or Reference (optional) : ').grid(row=0, column=0)
         nameEntry = tk.Entry(clientDetails, textvariable=self.info.name).grid(row=0, column=1)
         clientDetails.pack(fill='both', expand=True, side=tk.TOP)
 
@@ -117,13 +122,39 @@ class Footer(tk.Frame):
         print('Name : ', self.info.name.get())
         dicttools.dump(self.info.finalScore)
         print(self.info.incomplete)
+        print(time.strftime("%a %d-%m-%Y %H:%M:%S", time.gmtime()))
+
+    def file_save(self):
+        with asksaveasfile(mode='w', defaultextension=".csv") as f:
+            w = csv.writer(f) #switch to file later
+            w.writerow(['Client name :']+[self.info.name.get()])
+            #w.writerow(self.info.age.get())
+            w.writerow(['Survey date :']+[time.strftime("%a %d-%m-%Y %H:%M:%S", time.gmtime())])
+            w.writerow(['Incomplete  :']+[self.info.incomplete])
+            w.writerows(self.info.finalScore.items())
+            f.close()
+        # filename.write(text2save)
+        #f.close() # `()` was missing.
+
+    def outputCSV(self):
+        filename = self.info.name.get() + time.strftime("-%d%m%Y-%H%M")+'.csv'
+        print('Filename : ', filename)
+        with open(filename,'wb') as f:
+            w = csv.writer(sys.stderr) #switch to file later
+            w.writerow(['Client name :']+[self.info.name.get()])
+            #w.writerow(self.info.age.get())
+            w.writerow(['Survey date :']+[time.strftime("%a %d-%m-%Y %H:%M:%S", time.gmtime())])
+            w.writerow(['Incomplete  :']+[self.info.incomplete])
+            w.writerows(self.info.finalScore.items())
 
     def createReport(self):
         # For Dicts .keys prints keys, Dict[key] prints content, .items prints both 
         self.convertToInts()
         self.reverseAnswers()
         self.sumTraits()
-        self.printResults()
+        #self.printResults()
+        #self.outputCSV()
+        self.file_save()
         root.quit()
 
 if __name__ == '__main__':
