@@ -125,7 +125,10 @@ class Footer(tk.Frame):
         print(time.strftime("%a %d-%m-%Y %H:%M:%S", time.gmtime()))
 
     def file_save(self):
-        with asksaveasfile(mode='w', defaultextension=".csv") as f:
+        name = asksaveasfile(mode='w', defaultextension=".csv") 
+        if name is None:
+            return
+        with name as f:
             w = csv.writer(f) #switch to file later
             w.writerow(['Client name :']+[self.info.name.get()])
             #w.writerow(self.info.age.get())
