@@ -19,6 +19,10 @@ class MainApplication(tk.Frame):
         self.questionnaire.pack(side='top', fill='x', expand=True)
         self.footer.pack(side='bottom', fill='x', expand=True) 
 
+    def exit(self):
+        # Stub awaiting an seperate quit button.
+        root.quit()
+
 class Info():
     def __init__(self):
         file = open('questions.txt')
@@ -32,7 +36,7 @@ class Info():
         self.incomplete = set()
         self.name = tk.StringVar()
         self.finalScore = {}
-
+        self.dob = tk.StringVar()
 
 class Header(tk.Frame):
     def __init__(self, parent, information):
@@ -46,8 +50,10 @@ class Header(tk.Frame):
         clientDetails = tk.Frame(self)
         nameLabel = tk.Label(clientDetails, text='Name or Reference (optional) : ').grid(row=0, column=0)
         nameEntry = tk.Entry(clientDetails, textvariable=self.info.name).grid(row=0, column=1)
+        dobLabel = tk.Label(clientDetails, text='Date(MM/DD/YYYY)').grid(row=1, column=0)
+        self.dobEntry = tk.Entry(clientDetails, textvariable=self.info.dob).grid(row=1, column=1)
+        dobButton = tk.Button(clientDetails, text='DoB', command=self.formatDateWidget).grid(row=1, column=2)
         clientDetails.pack(fill='both', expand=True, side=tk.TOP)
-
 
         header = tk.Frame(self)
         headings = [' '*self.info.width*2,'?', 'N', 'M', 'Y']
@@ -55,6 +61,13 @@ class Header(tk.Frame):
             labelheading = tk.Label(header, text=heading, justify=tk.RIGHT)
             labelheading.grid(row=1, column=col, sticky=tk.E)
         header.pack(fill='both', expand=True, side=tk.TOP)
+
+    def formatDateWidget(self):
+        entrylist = [c for c in self.info.dob.get() if c !='/']
+        for pos in [2, 5]:
+            if len(entrylist) > pos:
+                entrylist.insert(pos, '/')
+        self.info.dob.set(' '.join(entrylist))
 
 class Questionnaire(tk.Frame):
     def __init__(self, master, information):
@@ -117,14 +130,14 @@ class Footer(tk.Frame):
     def sumTraits(self):
         for trait in self.info.traits.keys():
             self.info.finalScore[trait] = self.addScore(trait)
-    
+
     def printResults(self):
         print('Name : ', self.info.name.get())
         dicttools.dump(self.info.finalScore)
         print(self.info.incomplete)
         print(time.strftime("%a %d-%m-%Y %H:%M:%S", time.gmtime()))
 
-    def file_save(self):
+    def fileSave(self):
         name = asksaveasfile(mode='w', defaultextension=".csv") 
         if name is None:
             return
@@ -136,29 +149,37 @@ class Footer(tk.Frame):
             w.writerow(['Incomplete  :']+[self.info.incomplete])
             w.writerows(self.info.finalScore.items())
             f.close()
-        # filename.write(text2save)
-        #f.close() # `()` was missing.
 
     def outputCSV(self):
+        # This is residual code unused at the moment.
         filename = self.info.name.get() + time.strftime("-%d%m%Y-%H%M")+'.csv'
         print('Filename : ', filename)
         with open(filename,'wb') as f:
             w = csv.writer(sys.stderr) #switch to file later
             w.writerow(['Client name :']+[self.info.name.get()])
-            #w.writerow(self.info.age.get())
+            w.writerow(self.info.dob.get())
             w.writerow(['Survey date :']+[time.strftime("%a %d-%m-%Y %H:%M:%S", time.gmtime())])
-            w.writerow(['Incomplete  :']+[self.info.incomplete])
+            w.writerow(['Incomplete  :']+self.info.incomplete)
             w.writerows(self.info.finalScore.items())
 
-    def createReport(self):
-        # For Dicts .keys prints keys, Dict[key] prints content, .items prints both 
+    def diplayReport(self):
+        # Will eventual display the report results in a window. 
         self.convertToInts()
         self.reverseAnswers()
         self.sumTraits()
-        #self.printResults()
-        #self.outputCSV()
-        self.file_save()
-        root.quit()
+        self.printResults()
+
+    def createReport(self):
+        # Allows the user to save the results to a .csv file.
+        self.convertToInts()
+        self.reverseAnswers()
+        self.sumTraits()
+        self.fileSave()
+        root.quit() # To be removed when quit button created.
+
+    def resetFields(self):
+        # Stub for resetting fields after a successful export.
+        pass()
 
 if __name__ == '__main__':
     root = tk.Tk()
