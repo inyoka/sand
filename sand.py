@@ -179,7 +179,7 @@ class Footer(tk.Frame):
 
     def resetFields(self):
         # Stub for resetting fields after a successful export.
-        pass()
+        pass
 
 if __name__ == '__main__':
     root = tk.Tk()
