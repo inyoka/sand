@@ -1,0 +1,3 @@
+Tidy up the incomplete traits output
+Add DoB field and calculate age
+
