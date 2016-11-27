@@ -51,8 +51,18 @@ class Info():
         #self.answers = []
         #for _count in self.answers:
         #    self.answers.append(tk.IntVar(value = -1))
-        for count, button in enumerate(self.buttons):
-            self.buttons[count] = tk.IntVar(value = -1)
+        for a in self.answers:
+            a.set(value = -1)
+            #self.var = tk.IntVar(value = -1)
+            #self.buttons[count].pack_forget() 
+            #self.buttons[count] = tk.IntVar(value = -1)
+            #self.info.buttons[count].config(value = -1)
+            #self.buttons[count].set(-1)
+            #self.buttons[count].config(var = tk.IntVar(value = -1))
+            #   self.buttons[count].config(variable = self.var)
+            #self.buttons[count].get(-1)
+            #print(self.var.get())
+            #self.buttons[count] = self.var.set(1)
 
 class Header(tk.Frame):
     def __init__(self, parent, information):
@@ -109,8 +119,7 @@ class Questionnaire(tk.Frame):
                 if number % 5 == 0:
                     button.configure(background='#d0d0d0')
                 button.grid(row = number, column = answer+2)
-                self.info.buttons.append(button)
-
+            self.info.buttons.append(button)
             self.info.answers.append(self.var)
 
 class Footer(tk.Frame):
