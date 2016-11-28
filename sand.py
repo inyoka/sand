@@ -20,7 +20,7 @@ class MainApplication(tk.Frame):
         self.header.pack(side='top', fill='x', expand=True)
         self.questionnaire.pack(side='top', fill='x', expand=True)
         self.footer.pack(side='bottom', fill='x', expand=True)
-  
+
 class Info():
     def __init__(self):
         file = open('questions.txt')
@@ -40,10 +40,7 @@ class Info():
     def resetConfirm(self):
         result = askquestion("Delete", "Are You Sure?", icon='warning')
         if result == 'yes':
-            print ("Deleted")
             self.resetFields()
-        else:
-            print ("I'm Not Deleted Yet")
 
     def resetFields(self):
         self.name.set(value = '')
@@ -69,9 +66,6 @@ class Header(tk.Frame):
         super(Header, self).__init__()
         self.parent = parent
         self.info = information
-
-        title = tk.Label(self, text="Strengths & Difficulties")
-        title.pack()
 
         clientDetails = tk.Frame(self)
         nameLabel = tk.Label(clientDetails, text='Name or Reference (optional) : ').grid(row=0, column=0)
@@ -100,7 +94,9 @@ class Questionnaire(tk.Frame):
         super(Questionnaire, self).__init__()
         self.info = information
         self.master = master
+        self.questions = tk.Frame(self)
         self.askQuestions()
+        self.questions.pack(fill='both', expand=True, side=tk.TOP)
 
     def askQuestions(self):
         file = open('questions.txt')
@@ -109,18 +105,21 @@ class Questionnaire(tk.Frame):
             self.var = tk.IntVar(value = -1)
             width = 5
             line = '{:5}'.format(number, fill=' ') + ' : ' + question.strip()
-            label = tk.Label(self, text=line)
+            label = tk.Label(self.questions, text=line)
             if number % 5 == 0:
                 label.configure(background='#d0d0d0')
             label.grid(row=number, column = 0, sticky=tk.W)
             options = ['?', 'No', 'Maybe', 'Yes']
             for answer in range(-1,3):
-                button = tk.Radiobutton(self, borderwidth=10, variable = self.var, text=options[answer+1], width = 5, value = answer, indicatoron=0)
+                button = tk.Radiobutton(self.questions, borderwidth=10, variable = self.var, text=options[answer+1], width = 5, value = answer, indicatoron=0)
                 if number % 5 == 0:
                     button.configure(background='#d0d0d0')
                 button.grid(row = number, column = answer+2)
             self.info.buttons.append(button)
             self.info.answers.append(self.var)
+        #scrollbar = tk.Scrollbar(self.questions).pack(side='right', fill='y')
+
+        
 
 class Footer(tk.Frame):
     def __init__(self, parent, information):
@@ -223,5 +222,6 @@ class Footer(tk.Frame):
 
 if __name__ == '__main__':
     root = tk.Tk()
+    root.wm_title('Strengths & Difficulties - SAND')
     MainApplication(root).pack(side='top', fill='both', expand=True)
     root.mainloop()
