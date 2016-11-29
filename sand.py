@@ -1,5 +1,6 @@
 #!/usr/bin/env python3 -tt
 import tkinter as tk
+from client import Info
 from tkinter.filedialog import asksaveasfile
 from tkinter.messagebox import askquestion
 from tkinter import scrolledtext
@@ -14,52 +15,19 @@ class MainApplication(tk.Frame):
         tk.Frame.__init__(self)
         information = Info()
         self.parent = parent
+
+        self.toolbar = Toolbar(self)
         self.header = Header(self, information)
         self.questionnaire = Questionnaire(self, information)
         self.footer = Footer(self, information)
+
+        self.toolbar.pack(side="top", fill="x")
         self.header.pack(side='top', fill='x', expand=True)
         self.questionnaire.pack(side='top', fill='x', expand=True)
         self.footer.pack(side='bottom', fill='x', expand=True)
 
-class Info():
-    def __init__(self):
-        file = open('questions.txt')
-        self.width = len(max(file, key=len))
-        self.traits = {'emotional' : [3, 8, 13, 16, 24], 
-                        'conduct' : [5,7, 12, 18, 22], 
-                        'hyperactivity' : [2, 10, 15, 21, 25], 
-                        'peer' : [6, 11, 14, 19, 23], 
-                        'prosocial' : [1, 4, 9, 17, 20]}
-        self.buttons = []
-        self.incomplete = set()
-        self.name = tk.StringVar()
-        self.dob = tk.StringVar() 
-        self.answers = []
-        self.finalScore = {}
-
-    def resetConfirm(self):
-        result = askquestion("Delete", "Are You Sure?", icon='warning')
-        if result == 'yes':
-            self.resetFields()
-
-    def resetFields(self):
-        self.name.set(value = '')
-        self.dob.set(value = '')
-        #self.answers = []
-        #for _count in self.answers:
-        #    self.answers.append(tk.IntVar(value = -1))
-        for a in self.answers:
-            a.set(value = -1)
-            #self.var = tk.IntVar(value = -1)
-            #self.buttons[count].pack_forget() 
-            #self.buttons[count] = tk.IntVar(value = -1)
-            #self.info.buttons[count].config(value = -1)
-            #self.buttons[count].set(-1)
-            #self.buttons[count].config(var = tk.IntVar(value = -1))
-            #   self.buttons[count].config(variable = self.var)
-            #self.buttons[count].get(-1)
-            #print(self.var.get())
-            #self.buttons[count] = self.var.set(1)
+class Toolbar(tk.Frame):
+    pass
 
 class Header(tk.Frame):
     def __init__(self, parent, information):
@@ -95,7 +63,10 @@ class Questionnaire(tk.Frame):
         self.info = information
         self.master = master
         self.questions = tk.Frame(self)
+        self.radioFrame = tk.Frame(self.questions)
         self.askQuestions()
+        self.radioFrame.pack(fill='both', expand=True, side=tk.TOP)
+        #scrollbar = tk.Scrollbar(self.questions).pack(side='right', fill='y')
         self.questions.pack(fill='both', expand=True, side=tk.TOP)
 
     def askQuestions(self):
@@ -105,21 +76,19 @@ class Questionnaire(tk.Frame):
             self.var = tk.IntVar(value = -1)
             width = 5
             line = '{:5}'.format(number, fill=' ') + ' : ' + question.strip()
-            label = tk.Label(self.questions, text=line)
+            label = tk.Label(self.radioFrame, text=line)
             if number % 5 == 0:
                 label.configure(background='#d0d0d0')
             label.grid(row=number, column = 0, sticky=tk.W)
             options = ['?', 'No', 'Maybe', 'Yes']
             for answer in range(-1,3):
-                button = tk.Radiobutton(self.questions, borderwidth=10, variable = self.var, text=options[answer+1], width = 5, value = answer, indicatoron=0)
+                button = tk.Radiobutton(self.radioFrame, borderwidth=10, variable = self.var, 
+                        text=options[answer+1], width = 5, value = answer, indicatoron=0)
                 if number % 5 == 0:
                     button.configure(background='#d0d0d0')
                 button.grid(row = number, column = answer+2)
             self.info.buttons.append(button)
             self.info.answers.append(self.var)
-        #scrollbar = tk.Scrollbar(self.questions).pack(side='right', fill='y')
-
-        
 
 class Footer(tk.Frame):
     def __init__(self, parent, information):
@@ -127,93 +96,17 @@ class Footer(tk.Frame):
         self.parent = parent
         self.info = information
         footer = tk.Frame(self)
-        reset_button = tk.Button(footer, text="Reset All", command=self.info.resetConfirm).grid(row=0, column=0, sticky='w')
+        reset_button = tk.Button(footer, text="Reset All", command=self.resetConfirm).grid(row=0, column=0, sticky='w')
         footer.grid_columnconfigure(1, weight=1)
-        output_button = tk.Button(footer, text="Output", command=self.outputResults).grid(row=0, column=2)
-        done_button = tk.Button(footer, text="Done", command=self.createReport).grid(row=0, column=3)
+        output_button = tk.Button(footer, text="Output", command=self.info.outputResults).grid(row=0, column=2)
+        done_button = tk.Button(footer, text="Export .csv", command=self.info.createReport).grid(row=0, column=3)
         exit_button = tk.Button(footer, text="Quit", command=self.exit).grid(row=0, column=4)
         footer.pack(fill='both', expand=True, side=tk.TOP, pady=5)
 
-    def convertToInts(self):
-        self.info.answers = [ int(x.get()) for x in self.info.answers ]
-
-    def reverseAnswers(self):
-        results = []
-        reverse = [7, 11, 14, 21, 25]
-        for no, answer in enumerate(self.info.answers, 1):
-            # Seems like slices would be better suited to this
-            if no in reverse:
-                if answer == 0:
-                    answer = 2
-                elif answer == 2:
-                    answer = 0
-            results.append(answer)
-        self.info.answers = [x  for x in results]
-
-    def addScore(self, trait):
-        self.lineNumbers = self.info.traits[trait]
-        score = 0
-        for item in self.lineNumbers:
-            if self.info.answers[item-1] > -1:
-                score = score + self.info.answers[item-1]
-            if self.info.answers[item-1] < 0:
-                self.info.incomplete.add(trait)
-        return(score)
-
-    def sumTraits(self):
-        for trait in self.info.traits.keys():
-            self.info.finalScore[trait] = self.addScore(trait)
-
-    def outputResults(self):
-        top = tk.Tk()
-        #Toplevel()
-        top.title("Sample output ...")
-
-        messageScrolled = scrolledtext.ScrolledText(top, wrap=tk.WORD, width=20, height=10)
-        messageScrolled.pack(side='top', fill='x', expand=True)
-
-        messageScrolled.insert(tk.INSERT, self.info.name.get())
-        messageScrolled.insert(tk.INSERT, self.info.dob.get())
-        messageScrolled.insert(tk.INSERT, self.info.incomplete)
-
-
-        button = tk.Button(top, text="Dismiss", command=top.destroy)
-        button.pack()
-        '''
-        print(self.info.incomplete)
-        print(time.strftime("%a %d-%m-%Y %H:%M:%S", time.gmtime()))
-        print('Client name :', self.info.name.get())
-        print('Birth date  :', self.info.dob.get())
-        print('Survey date :', time.strftime("%a %d-%m-%Y %H:%M:%S", time.gmtime()))
-        print('Incomplete  :', self.info.incomplete)
-        dicttools.dump(self.info.finalScore)
-        '''
-    def fileSave(self):
-        name = asksaveasfile(mode='w', defaultextension=".csv") 
-        if name is None:
-            return
-        with name as f:
-            w = csv.writer(f)
-            w.writerow(['Client name :']+[self.info.name.get()])
-            w.writerow(['Birth date  :']+[self.info.dob.get()])
-            w.writerow(['Survey date :']+[time.strftime("%a %d-%m-%Y %H:%M:%S", time.gmtime())])
-            w.writerow(['Incomplete  :']+[self.info.incomplete])
-            w.writerows(self.info.finalScore.items())
-            f.close()
-
-    def displayReport(self):
-        # Will eventual display the report results in a window. 
-        self.convertToInts()
-        self.reverseAnswers()
-        self.sumTraits()
-        self.printResults()
-
-    def createReport(self):
-        # Allows the user to save the results to a .csv file.
-        self.convertToInts()
-        self.reverseAnswers()
-        self.sumTraits()
-        self.fileSave()
+    def resetConfirm(self):
+        result = askquestion("Delete", "Are You Sure?", icon='warning')
+        if result == 'yes':
+            self.info.resetFields()
 
     def exit(self):
         # Stub awaiting an seperate quit button.
