@@ -1,12 +1,12 @@
 #!/usr/bin/env python3 -tt
 import tkinter as tk
 from tkinter.filedialog import asksaveasfile
-from tkinter.scrolledtext import ScrolledText
+from tkinter.filedialog import asksaveasfilename
 import csv
 import time
 
 
-class Info():
+class info():
     def __init__(self):
         file = open('questions.txt')
         self.width = len(max(file, key=len))
@@ -20,7 +20,7 @@ class Info():
         self.dob = tk.StringVar()
         self.buttons = []
         self.answers = []
-        self.finalScore = {}
+        self.fnlScore = {}
         self.stressScore = int()
 
     def resetFields(self):
@@ -29,31 +29,25 @@ class Info():
         for a in self.answers:
             # a.set(value=-1)
             a == -1  # .set(value = -1)
-
     '''
-    def resetFields(self):
-        self.name.set(value='')
-        self.dob.set(value='')
-        # print({a for a in self.answers})
-        for a in self.answers:
-            # a.set(value = -1)
-            a = -1  # .set(value = -1)
-        # print({a for a in self.answers})
-    '''
-
     def convertToInts(self):
         self.answers = [int(x.get()) for x in self.answers]
-
+        print(self.answers[:])
+    '''
     def reverseAnswers(self):
         results = []
         reverse = [7, 11, 14, 21, 25]
         for no, answer in enumerate(self.answers, 1):
             # Seems like slices would be better suited to this
+            print('ReverseAnswers : ' + str(no) + ' ' + str(answer.get()))
             if no in reverse:
-                if answer == 0:
-                    answer = 2
-                elif answer == 2:
-                    answer = 0
+                print('Reversed? ')
+                if answer.get() == 0:
+                    print('Yes ')
+                    answer.set(2)  #  = 2
+                elif answer.get() == 2:
+                    print('No ')
+                    answer.set(0)  # = 0
             results.append(answer)
         self.answers = [x for x in results]
 
@@ -61,50 +55,66 @@ class Info():
         self.lineNumbers = self.traits[trait]
         score = 0
         for item in self.lineNumbers:
-            if self.answers[item-1] > -1:
-                score = score + self.answers[item-1]
-            if self.answers[item-1] < 0:
+            if self.answers[item-1].get() > -1:
+                score = score + self.answers[item-1].get()
+            if self.answers[item-1].get() < 0:
                 self.incomplete.add(trait)
         return(score)
 
     def sumTraits(self):
         for trait in self.traits.keys():
-            self.finalScore[trait] = self.addScore(trait)
+            self.fnlScore[trait] = self.addScore(trait)
 
-    def calcStressScore(self):
+    def calcStress(self):
         self.stressScore = (
-            sum(self.finalScore.values()) - self.finalScore.get('prosocial'))
-
-    def createReport(self):
-        # Allows the user to save the results to a .csv file.
-        self.convertToInts()
-        self.reverseAnswers()
-        self.sumTraits()
-        self.calcStressScore()
-        self.fileSaveCSV()
-        self.resetFields()
-
+            sum(self.fnlScore.values()) - self.fnlScore.get('prosocial'))
+    '''
     def displayReport(self):
         # Will eventual display the report results in a window.
         self.convertToInts()
         self.reverseAnswers()
         self.sumTraits()
         self.printResults()
-
-    def outputResults(self):
+    '''
+    def toWin(self):
+        self.setup()
         top = tk.Tk()
-        top.title("Sample output ...")
+        top.title("Copy & Paste Report ...")
+        scrollbar = tk.Scrollbar(top)
 
-        txtScroll = ScrolledText(top, wrap=tk.WORD, width=20, height=10)
-        txtScroll.pack(side='top', fill='x', expand=True)
-        txtScroll.insert(tk.INSERT, self.name.get())
-        txtScroll.insert(tk.INSERT, self.dob.get())
-        txtScroll.insert(tk.INSERT, (a.get() for a in self.incomplete))
+        txtScroll = tk.Text(top, width=80, height=10, wrap="word",
+                            yscrollcommand=scrollbar.set,
+                            borderwidth=1, highlightthickness=0)
+
+        dt = time.strftime("%a %d-%m-%Y %H:%M:%S", time.localtime())
+        txtScroll.insert(tk.INSERT, 'Client name  :'+self.name.get()+'\n')
+        txtScroll.insert(tk.INSERT, 'Birth date   :'+self.dob.get()+'\n')
+        txtScroll.insert(tk.INSERT, 'Survey date  :'+dt+'\n')
+        txtScroll.insert(tk.INSERT, 'Incomplete   :'+', '.join(a for a in self.incomplete)+'\n')
+        txtScroll.insert(tk.INSERT, 'PRO-SOCIAL   :'+str(self.fnlScore['prosocial'])+'\n')
+        txtScroll.insert(tk.INSERT, 'Hyperactivity:'+str(self.fnlScore['hyperactivity'])+'\n')
+        txtScroll.insert(tk.INSERT, 'Emotional    :'+str(self.fnlScore['emotional'])+'\n')
+        txtScroll.insert(tk.INSERT, 'Conduct      :'+str(self.fnlScore['conduct'])+'\n')
+        txtScroll.insert(tk.INSERT, 'Peer         :'+str(self.fnlScore['peer'])+'\n')
+        txtScroll.insert(tk.INSERT, 'Total score  :'+str(self.stressScore))
+
+        scrollbar.config(command=txtScroll.yview)
+        scrollbar.pack(side="right", fill="y")
+        txtScroll.pack(side='top', fill=tk.BOTH, expand=True)
 
         button = tk.Button(top, text="Dismiss", command=top.destroy)
         button.pack()
 
-    def fileSaveCSV(self):
+        # frame.pack()
+
+    def setup(self):
+        self.reverseAnswers()
+        self.sumTraits()
+        self.calcStress()
+
+    def toCSV(self):
+        self.setup()
+
         name = asksaveasfile(mode='w', defaultextension=".csv")
         if name is None:
             return
@@ -115,10 +125,29 @@ class Info():
             w.writerow(['Birth date   :']+[self.dob.get()])
             w.writerow(['Survey date  :']+[dt])
             w.writerow(['Incomplete   :']+[a for a in list(self.incomplete)])
-            w.writerow(['PRO-SOCIAL   :']+[str(self.finalScore['prosocial'])])
-            w.writerow(['Hyperactivity:']+[str(self.finalScore['hyperactivity'])])
-            w.writerow(['Emotional    :']+[str(self.finalScore['emotional'])])
-            w.writerow(['Conduct      :']+[str(self.finalScore['conduct'])])
-            w.writerow(['Peer         :']+[str(self.finalScore['peer'])])
+            w.writerow(['PRO-SOCIAL   :']+[str(self.fnlScore['prosocial'])])
+            w.writerow(['Hyperactivity:']+[str(self.fnlScore['hyperactivity'])])
+            w.writerow(['Emotional    :']+[str(self.fnlScore['emotional'])])
+            w.writerow(['Conduct      :']+[str(self.fnlScore['conduct'])])
+            w.writerow(['Peer         :']+[str(self.fnlScore['peer'])])
             w.writerow(['Total score  :']+[self.stressScore])
             f.close()
+
+    def toTxt(self):  # exportText(self):
+        self.setup()
+
+        name = asksaveasfilename(defaultextension=".txt")
+        if name is None:
+            return
+        f = open(name, 'w')
+        f.write('Client name :' + self.name.get() + '\n')
+        f.write('Birth date  :' + self.dob.get() + '\n')
+        f.write('Survey date :' + time.strftime("%a %d-%m-%Y %H:%M:%S", time.gmtime()) + '\n')
+        f.write('Incomplete  :' + str(list(self.incomplete)) + '\n')
+        f.write('Stress score:' + str(self.stressScore) + '\n')
+        f.write('Emotional distress :' + str(self.fnlScore.get('emotional')) + '\n')
+        f.write('Behavioural difficulties :' + str(self.fnlScore.get('conduct')) + '\n')
+        f.write('Hyperactivity and concentration difficulties :' + str(self.fnlScore.get('hyperactivity')) + '\n')
+        f.write('Difficulties socialising with children :' + str(self.fnlScore.get('peer')) + '\n')
+        f.write('Kind and helpful behaviour :' + str(self.fnlScore.get('prosocial')) + '\n')
+        f.close()

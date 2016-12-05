@@ -1,21 +1,14 @@
 #!/usr/bin/env python3 -tt
 import tkinter as tk
-from client import Info
-from tkinter.filedialog import asksaveasfile
+from client import info
+# from output import toTxt
 from tkinter.messagebox import askquestion
-from tkinter import scrolledtext
-import dicttools
-import csv
-import sys
-
-import datetime
-import time
 
 
 class MainApplication(tk.Frame):
     def __init__(self, parent, *args, **kwargs):
         tk.Frame.__init__(self)
-        information = Info()
+        information = info()
         self.parent = parent
 
         self.toolbar = Toolbar(self)
@@ -40,11 +33,20 @@ class Header(tk.Frame):
         self.info = information
 
         clientDetails = tk.Frame(self)
-        nameLabel = tk.Label(clientDetails, text='Name or Reference (optional) : ').grid(row=0, column=0)
-        nameEntry = tk.Entry(clientDetails, textvariable=self.info.name).grid(row=0, column=1)
-        dobLabel = tk.Label(clientDetails, text='Date(MM/DD/YYYY)').grid(row=1, column=0)
-        self.dobEntry = tk.Entry(clientDetails, textvariable=self.info.dob).grid(row=1, column=1)
-        dobButton = tk.Button(clientDetails, text='Format DoB', command=self.formatDateWidget).grid(row=1, column=2)
+
+        nameLabel = tk.Label(clientDetails, text='Optional Name or Reference: ')
+        nameEntry = tk.Entry(clientDetails, textvariable=self.info.name)
+        dobLabel = tk.Label(clientDetails, text='Date(MM/DD/YYYY)')
+        dobEntry = tk.Entry(clientDetails, textvariable=self.info.dob)
+        dobButton = tk.Button(clientDetails, text='Format',
+                              command=self.formatDateWidget)
+
+        nameLabel.grid(row=0, column=0)
+        nameEntry.grid(row=0, column=1)
+        dobLabel.grid(row=1, column=0)
+        dobEntry.grid(row=1, column=1)
+        dobButton.grid(row=1, column=2)
+
         clientDetails.pack(fill='both', expand=True, side=tk.TOP)
 
         header = tk.Frame(self)
@@ -79,16 +81,18 @@ class Questionnaire(tk.Frame):
         questionlist = file.readlines()
         for number, question in enumerate(questionlist, 1):
             self.var = tk.IntVar(value=-1)
-            width = 5
+            # width = 5
             line = '{:5}'.format(number, fill=' ')+' : '+question.strip()
             label = tk.Label(self.radioFrame, text=line)
             if number % 5 == 0:
                 label.configure(background='#d0d0d0')
-            label.grid(row=number, column = 0, sticky=tk.W)
+            label.grid(row=number, column=0, sticky=tk.W)
             options = ['?', 'No', 'Maybe', 'Yes']
-            for answer in range(-1,3):
-                button = tk.Radiobutton(self.radioFrame, borderwidth=10, variable=self.var,
-                            text=options[answer+1], width=5, value=answer, indicatoron=0)
+            for answer in range(-1, 3):
+                button = tk.Radiobutton(self.radioFrame, borderwidth=10,
+                                        variable=self.var,
+                                        text=options[answer+1], width=5,
+                                        value=answer, indicatoron=0)
                 if number % 5 == 0:
                     button.configure(background='#d0d0d0')
                 button.grid(row=number, column=answer+2)
@@ -102,20 +106,28 @@ class Footer(tk.Frame):
         self.parent = parent
         self.info = information
         footer = tk.Frame(self)
-        # reset_button = tk.Button(footer, text="Reset All", command=self.resetConfirm).grid(row=0, column=0, sticky='w')
+
+        rstButton = tk.Button(footer, text="Reset All", command=self.rstConfirm)
+        winButton = tk.Button(footer, text="View", command=self.info.toWin)
+        csvButton = tk.Button(footer, text="Save .csv", command=self.info.toCSV)
+        txtButton = tk.Button(footer, text="Save .txt", command=self.info.toTxt)
+        extButton = tk.Button(footer, text="Quit", command=self.exit)
+
+        rstButton.grid(row=0, column=0, sticky='w')
+        winButton.grid(row=0, column=2)
+        csvButton.grid(row=0, column=3)
+        txtButton.grid(row=0, column=4)
+        extButton.grid(row=0, column=5)
+
         footer.grid_columnconfigure(1, weight=1)
-        # output_button = tk.Button(footer, text="Output", command=self.info.outputResults).grid(row=0, column=2)
-        done_button = tk.Button(footer, text="Export .csv", command=self.info.createReport).grid(row=0, column=3)
-        exit_button = tk.Button(footer, text="Quit", command=self.exit).grid(row=0, column=4)
         footer.pack(fill='both', expand=True, side=tk.TOP, pady=5)
 
-    def resetConfirm(self):
+    def rstConfirm(self):
         result = askquestion("Delete", "Are You Sure?", icon='warning')
         if result == 'yes':
             self.info.resetFields()
 
     def exit(self):
-        # Stub awaiting an seperate quit button.
         print('Exiting application')
         root.quit()
 
