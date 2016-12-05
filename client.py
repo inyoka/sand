@@ -27,29 +27,8 @@ class info():
         self.name.set(value='')
         self.dob.set(value='')
         for a in self.answers:
-            # a.set(value=-1)
             a == -1  # .set(value = -1)
-    '''
-    def convertToInts(self):
-        self.answers = [int(x.get()) for x in self.answers]
-        print(self.answers[:])
-    '''
-    def reverseAnswers(self):
-        results = []
-        reverse = [7, 11, 14, 21, 25]
-        for no, answer in enumerate(self.answers, 1):
-            # Seems like slices would be better suited to this
-            print('ReverseAnswers : ' + str(no) + ' ' + str(answer.get()))
-            if no in reverse:
-                print('Reversed? ')
-                if answer.get() == 0:
-                    print('Yes ')
-                    answer.set(2)  #  = 2
-                elif answer.get() == 2:
-                    print('No ')
-                    answer.set(0)  # = 0
-            results.append(answer)
-        self.answers = [x for x in results]
+
 
     def addScore(self, trait):
         self.lineNumbers = self.traits[trait]
@@ -68,14 +47,12 @@ class info():
     def calcStress(self):
         self.stressScore = (
             sum(self.fnlScore.values()) - self.fnlScore.get('prosocial'))
-    '''
-    def displayReport(self):
-        # Will eventual display the report results in a window.
-        self.convertToInts()
-        self.reverseAnswers()
+
+    def setup(self):
+        # self.reverseAnswers()
         self.sumTraits()
-        self.printResults()
-    '''
+        self.calcStress()
+
     def toWin(self):
         self.setup()
         top = tk.Tk()
@@ -105,12 +82,23 @@ class info():
         button = tk.Button(top, text="Dismiss", command=top.destroy)
         button.pack()
 
-        # frame.pack()
+    def toTxt(self):  # exportText(self):
+        self.setup()
 
-    def setup(self):
-        self.reverseAnswers()
-        self.sumTraits()
-        self.calcStress()
+        name = asksaveasfilename(defaultextension=".txt")
+        if name is None:
+            return
+        f = open(name, 'w')
+        f.write('Client name :' + self.name.get() + '\n')
+        f.write('Birth date  :' + self.dob.get() + '\n')
+        f.write('Survey date :' + time.strftime("%a %d-%m-%Y %H:%M:%S", time.gmtime()) + '\n')
+        f.write('Incomplete  :' + str(list(self.incomplete)) + '\n')
+        f.write('Stress score:' + str(self.stressScore) + '\n')
+        f.write('Emotional distress :' + str(self.fnlScore.get('emotional')) + '\n')
+        f.write('Behavioural difficulties :' + str(self.fnlScore.get('conduct')) + '\n')
+        f.write('Hyperactivity and concentration difficulties :' + str(self.fnlScore.get('hyperactivity')) + '\n')
+        f.write('Difficulties socialising with children :' + str(self.fnlScore.get('peer')) + '\n')
+        f.write('Kind and helpful behaviour :' + str(self.fnlScore.get('prosocial')) + '\n')
 
     def toCSV(self):
         self.setup()
@@ -132,22 +120,4 @@ class info():
             w.writerow(['Peer         :']+[str(self.fnlScore['peer'])])
             w.writerow(['Total score  :']+[self.stressScore])
             f.close()
-
-    def toTxt(self):  # exportText(self):
-        self.setup()
-
-        name = asksaveasfilename(defaultextension=".txt")
-        if name is None:
-            return
-        f = open(name, 'w')
-        f.write('Client name :' + self.name.get() + '\n')
-        f.write('Birth date  :' + self.dob.get() + '\n')
-        f.write('Survey date :' + time.strftime("%a %d-%m-%Y %H:%M:%S", time.gmtime()) + '\n')
-        f.write('Incomplete  :' + str(list(self.incomplete)) + '\n')
-        f.write('Stress score:' + str(self.stressScore) + '\n')
-        f.write('Emotional distress :' + str(self.fnlScore.get('emotional')) + '\n')
-        f.write('Behavioural difficulties :' + str(self.fnlScore.get('conduct')) + '\n')
-        f.write('Hyperactivity and concentration difficulties :' + str(self.fnlScore.get('hyperactivity')) + '\n')
-        f.write('Difficulties socialising with children :' + str(self.fnlScore.get('peer')) + '\n')
-        f.write('Kind and helpful behaviour :' + str(self.fnlScore.get('prosocial')) + '\n')
         f.close()

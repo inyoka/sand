@@ -73,12 +73,12 @@ class Questionnaire(tk.Frame):
         self.radioFrame = tk.Frame(self.questions)
         self.askQuestions()
         self.radioFrame.pack(fill='both', expand=True, side=tk.TOP)
-        # scrollbar = tk.Scrollbar(self.questions).pack(side='right', fill='y')
         self.questions.pack(fill='both', expand=True, side=tk.TOP)
 
     def askQuestions(self):
         file = open('questions.txt')
         questionlist = file.readlines()
+        reverse = [7, 11, 14, 21, 25]
         for number, question in enumerate(questionlist, 1):
             self.var = tk.IntVar(value=-1)
             # width = 5
@@ -92,13 +92,37 @@ class Questionnaire(tk.Frame):
                 button = tk.Radiobutton(self.radioFrame, borderwidth=10,
                                         variable=self.var,
                                         text=options[answer+1], width=5,
-                                        value=answer, indicatoron=0)
+                                        indicatoron=0)
+                button.configure(value=answer)
+                if number in reverse:
+                    if answer == 0:
+                        button.configure(value=2)
+                    elif answer == 2:
+                        button.configure(value=0)
+
                 if number % 5 == 0:
                     button.configure(background='#d0d0d0')
                 button.grid(row=number, column=answer+2)
             self.info.buttons.append(button)
             self.info.answers.append(self.var)
-
+    '''
+    def reverseAnswers(self):
+        results = []
+        reverse = [7, 11, 14, 21, 25]
+        for no, answer in enumerate(self.answers, 1):
+            # Seems like slices would be better suited to this
+            print('ReverseAnswers : ' + str(no) + ' ' + str(answer.get()))
+            if no in reverse:
+                print('Reversed? ')
+                if answer.get() == 0:
+                    print('Yes ')
+                    answer.set(2)  # = 2
+                elif answer.get() == 2:
+                    print('No ')
+                    answer.set(0)  # = 0
+            results.append(answer)
+        self.answers = [x for x in results]
+    '''
 
 class Footer(tk.Frame):
     def __init__(self, parent, information):
