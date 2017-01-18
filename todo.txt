@@ -1,3 +1,5 @@
 Tidy up the incomplete traits output
 Add DoB field and calculate age
-
+Implement File menus
+Allow the attachment of Notes
+Store results in searchable database.
