@@ -20,6 +20,7 @@ lib64/
 parts/
 sdist/
 var/
+logo-ideas/
 *.egg-info/
 .installed.cfg
 *.egg
@@ -87,3 +88,7 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+.DS_Store
+
+*.swp
