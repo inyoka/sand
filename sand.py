@@ -1,7 +1,6 @@
 #!/usr/bin/env python3 -tt
 import tkinter as tk
 from client import info
-# from output import toTxt
 from tkinter.messagebox import askquestion
 
 
@@ -105,24 +104,6 @@ class Questionnaire(tk.Frame):
                 button.grid(row=number, column=answer+2)
             self.info.buttons.append(button)
             self.info.answers.append(self.var)
-    '''
-    def reverseAnswers(self):
-        results = []
-        reverse = [7, 11, 14, 21, 25]
-        for no, answer in enumerate(self.answers, 1):
-            # Seems like slices would be better suited to this
-            print('ReverseAnswers : ' + str(no) + ' ' + str(answer.get()))
-            if no in reverse:
-                print('Reversed? ')
-                if answer.get() == 0:
-                    print('Yes ')
-                    answer.set(2)  # = 2
-                elif answer.get() == 2:
-                    print('No ')
-                    answer.set(0)  # = 0
-            results.append(answer)
-        self.answers = [x for x in results]
-    '''
 
 class Footer(tk.Frame):
     def __init__(self, parent, information):
