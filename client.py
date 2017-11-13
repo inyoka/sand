@@ -84,8 +84,7 @@ class info():
 
     def toTxt(self):  # exportText(self):
         self.setup()
-
-        name = asksaveasfilename(defaultextension=".txt")
+        name = asksaveasfilename(initialfile = self.name.get(), defaultextension=".txt")
         if name is None:
             return
         f = open(name, 'w')
@@ -103,7 +102,7 @@ class info():
     def toCSV(self):
         self.setup()
 
-        name = asksaveasfile(mode='w', defaultextension=".csv")
+        name = asksaveasfile(mode='w', initialfile = self.name.get(), defaultextension=".csv")
         if name is None:
             return
         with name as f:
