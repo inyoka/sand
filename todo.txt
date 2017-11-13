@@ -1,8 +1,6 @@
 Priorities
 ----------
 
-Automatically use student name as filename.
-Fix reset to clear Radio button results
 Append results to spreadsheet.
 
 Supplemental Edits
@@ -13,3 +11,9 @@ Add DoB field and calculate age
 Implement File menus
 Allow the attachment of Notes
 Store results in searchable database.
+
+Done
+----
+
+Automatically use student name as filename.
+Fix reset to clear Radio button results
