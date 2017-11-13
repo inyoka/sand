@@ -83,6 +83,10 @@ celerybeat-schedule
 venv/
 ENV/
 
+# Directories
+py/
+
+
 # Spyder project settings
 .spyderproject
 
