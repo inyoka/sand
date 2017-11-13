@@ -10,19 +10,19 @@ class MainApplication(tk.Frame):
         information = info()
         self.parent = parent
 
-        self.toolbar = Toolbar(self)
+        # self.toolbar = Toolbar(self)
         self.header = Header(self, information)
         self.questionnaire = Questionnaire(self, information)
         self.footer = Footer(self, information)
 
-        self.toolbar.pack(side="top", fill="x")
+        # self.toolbar.pack(side="top", fill="x")
         self.header.pack(side='top', fill='x', expand=True)
         self.questionnaire.pack(side='top', fill='x', expand=True)
         self.footer.pack(side='bottom', fill='x', expand=True)
 
 
-class Toolbar(tk.Frame):
-    pass
+#class Toolbar(tk.Frame):
+#    pass
 
 
 class Header(tk.Frame):
