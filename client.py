@@ -27,7 +27,7 @@ class info():
         self.name.set(value='')
         self.dob.set(value='')
         for a in self.answers:
-            a == -1  # .set(value = -1)
+             a.set(value = -1)
 
 
     def addScore(self, trait):
