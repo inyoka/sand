@@ -1,5 +1,6 @@
-#!/usr/bin/env python3 -tt
 import tkinter as tk
+from tkinter import ttk 
+        
 from client import info
 from tkinter.messagebox import askquestion
 
@@ -10,19 +11,52 @@ class MainApplication(tk.Frame):
         information = info()
         self.parent = parent
 
-        # self.toolbar = Toolbar(self)
+        # creating a menu instance
+        menu = tk.Menu(self.master)
+        self.master.config(menu=menu)
+        # create the file object)
+        file = tk.Menu(menu)
+        # adds a command to the menu option, calling it exit, and the
+        # command it runs on event is self.exit
+        file.add_command(label="Exit", command=root.quit())
+        #added "file" to our menu
+        menu.add_cascade(label="File", menu=file)
+        # create the file object)
+        edit = tk.Menu(menu)
+        # adds a command to the menu option, calling it exit, and the
+        # command it runs on event is self.exit
+        edit.add_command(label="Undo")
+        #added "file" to our menu
+        menu.add_cascade(label="Edit", menu=edit)
+
+
+
+        #self.toolbar = Toolbar(self, information)
         self.header = Header(self, information)
         self.questionnaire = Questionnaire(self, information)
         self.footer = Footer(self, information)
 
-        # self.toolbar.pack(side="top", fill="x")
+        #self.toolbar.pack(side="top", fill="x")
         self.header.pack(side='top', fill='x', expand=True)
         self.questionnaire.pack(side='top', fill='x', expand=True)
         self.footer.pack(side='bottom', fill='x', expand=True)
 
 
-#class Toolbar(tk.Frame):
-#    pass
+'''
+class Toolbar(tk.Frame):
+    def __init__(self, parent, information):
+        menubar = tk.Menu(root)
+        information = info()
+        filemenu = tk.Menu(menubar, tearoff=0 ) # File menu
+        root.config(menu=menubar) # this line actually displays menu
+
+        fileMenu= tk.Menu(menuBar, tearoff=0)  
+        fileMenu.add_command(label="New")  
+        fileMenu.add_separator()  
+        fileMenu.add_command(label="Exit", command=_quit)  
+        menuBar.add_cascade(label="File", menu=fileMenu)  
+'''
+
 
 
 class Header(tk.Frame):
@@ -33,23 +67,23 @@ class Header(tk.Frame):
 
         clientDetails = tk.Frame(self)
 
-        nameLabel = tk.Label(clientDetails, text='Optional Name or Reference: ')
+        nameLabel = tk.Label(clientDetails, text='Name / Ref : ')
         nameEntry = tk.Entry(clientDetails, textvariable=self.info.name)
-        dobLabel = tk.Label(clientDetails, text='Date(MM/DD/YYYY)')
+        dobLabel = tk.Label(clientDetails, text='Date(dd/mm/yyyy)')
         dobEntry = tk.Entry(clientDetails, textvariable=self.info.dob)
         dobButton = tk.Button(clientDetails, text='Format',
                               command=self.formatDateWidget)
 
         nameLabel.grid(row=0, column=0)
         nameEntry.grid(row=0, column=1)
-        dobLabel.grid(row=1, column=0)
-        dobEntry.grid(row=1, column=1)
-        dobButton.grid(row=1, column=2)
+        dobLabel.grid(row=0, column=2)
+        dobEntry.grid(row=0, column=3)
+        dobButton.grid(row=0, column=4)
 
         clientDetails.pack(fill='both', expand=True, side=tk.TOP)
 
         header = tk.Frame(self)
-        headings = [' '*self.info.width*2, '?', 'N', 'M', 'Y']
+        headings = ['       Questions'+' '*90, 'Unknown', 'No   ', 'Maybe', '   Yes']
         for col, heading in enumerate(headings):
             labelheading = tk.Label(header, text=heading, justify=tk.RIGHT)
             labelheading.grid(row=1, column=col, sticky=tk.E)
@@ -86,7 +120,7 @@ class Questionnaire(tk.Frame):
             if number % 5 == 0:
                 label.configure(background='#d0d0d0')
             label.grid(row=number, column=0, sticky=tk.W)
-            options = ['?', 'No', 'Maybe', 'Yes']
+            options = ['?', 'N', 'M', 'Y']
             for answer in range(-1, 3):
                 button = tk.Radiobutton(self.radioFrame, borderwidth=10,
                                         variable=self.var,
@@ -112,7 +146,7 @@ class Footer(tk.Frame):
         self.info = information
         footer = tk.Frame(self)
 
-        rstButton = tk.Button(footer, text="Reset All", command=self.rstConfirm)
+        rstButton = ttk.Button(footer, text="Reset All", command=self.rstConfirm)
         winButton = tk.Button(footer, text="View", command=self.info.toWin)
         csvButton = tk.Button(footer, text="Save .csv", command=self.info.toCSV)
         txtButton = tk.Button(footer, text="Save .txt", command=self.info.toTxt)
