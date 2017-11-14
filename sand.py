@@ -11,26 +11,6 @@ class MainApplication(tk.Frame):
         information = info()
         self.parent = parent
 
-        # creating a menu instance
-        menu = tk.Menu(self.master)
-        self.master.config(menu=menu)
-        # create the file object)
-        file = tk.Menu(menu)
-        # adds a command to the menu option, calling it exit, and the
-        # command it runs on event is self.exit
-        file.add_command(label="Exit", command=root.quit())
-        #added "file" to our menu
-        menu.add_cascade(label="File", menu=file)
-        # create the file object)
-        edit = tk.Menu(menu)
-        # adds a command to the menu option, calling it exit, and the
-        # command it runs on event is self.exit
-        edit.add_command(label="Undo")
-        #added "file" to our menu
-        menu.add_cascade(label="Edit", menu=edit)
-
-
-
         #self.toolbar = Toolbar(self, information)
         self.header = Header(self, information)
         self.questionnaire = Questionnaire(self, information)
@@ -42,7 +22,6 @@ class MainApplication(tk.Frame):
         self.footer.pack(side='bottom', fill='x', expand=True)
 
 
-'''
 class Toolbar(tk.Frame):
     def __init__(self, parent, information):
         menubar = tk.Menu(root)
@@ -55,7 +34,6 @@ class Toolbar(tk.Frame):
         fileMenu.add_separator()  
         fileMenu.add_command(label="Exit", command=_quit)  
         menuBar.add_cascade(label="File", menu=fileMenu)  
-'''
 
 
 
