@@ -14,12 +14,12 @@ class MainApplication(tk.Frame):
         #self.toolbar = Toolbar(self, information)
         self.header = Header(self, information)
         self.questionnaire = Questionnaire(self, information)
-        self.footer = Footer(self, information)
+        self.buttons = Buttons(self, information)
 
         #self.toolbar.pack(side="top", fill="x")
         self.header.pack(side='top', fill='x', expand=True)
         self.questionnaire.pack(side='top', fill='x', expand=True)
-        self.footer.pack(side='bottom', fill='x', expand=True)
+        self.buttons.pack(side='bottom', fill='x', expand=True)
 
 
 class Toolbar(tk.Frame):
@@ -117,18 +117,18 @@ class Questionnaire(tk.Frame):
             self.info.buttons.append(button)
             self.info.answers.append(self.var)
 
-class Footer(tk.Frame):
+class Buttons(tk.Frame):
     def __init__(self, parent, information):
-        super(Footer, self).__init__()
+        super(Buttons, self).__init__()
         self.parent = parent
         self.info = information
-        footer = tk.Frame(self)
+        buttons = tk.Frame(self)
 
-        rstButton = ttk.Button(footer, text="Reset All", command=self.rstConfirm)
-        winButton = tk.Button(footer, text="View", command=self.info.toWin)
-        csvButton = tk.Button(footer, text="Save .csv", command=self.info.toCSV)
-        txtButton = tk.Button(footer, text="Save .txt", command=self.info.toTxt)
-        extButton = tk.Button(footer, text="Quit", command=self.exit)
+        rstButton = ttk.Button(buttons, text="Reset All", command=self.rstConfirm)
+        winButton = tk.Button(buttons, text="View", command=self.info.toWin)
+        csvButton = tk.Button(buttons, text="Save .csv", command=self.info.toCSV)
+        txtButton = tk.Button(buttons, text="Save .txt", command=self.info.toTxt)
+        extButton = tk.Button(buttons, text="Quit", command=self.exit)
 
         rstButton.grid(row=0, column=0, sticky='w')
         winButton.grid(row=0, column=2)
@@ -136,8 +136,8 @@ class Footer(tk.Frame):
         txtButton.grid(row=0, column=4)
         extButton.grid(row=0, column=5)
 
-        footer.grid_columnconfigure(1, weight=1)
-        footer.pack(fill='both', expand=True, side=tk.TOP, pady=5)
+        buttons.grid_columnconfigure(1, weight=1)
+        buttons.pack(fill='both', expand=True, side=tk.TOP, pady=5)
 
     def rstConfirm(self):
         result = askquestion("Delete", "Are You Sure?", icon='warning')
