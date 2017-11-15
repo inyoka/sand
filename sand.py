@@ -47,18 +47,25 @@ class Header(tk.Frame):
 
         clientDetails = tk.Frame(self)
 
+        # Command Buttons
+
         nameLabel = tk.Label(clientDetails, text='Name / Ref : ')
-        nameEntry = tk.Entry(clientDetails, textvariable=self.info.name)
-        dobLabel = tk.Label(clientDetails, text='Date(dd/mm/yyyy)')
-        dobEntry = tk.Entry(clientDetails, textvariable=self.info.dob)
-        dobButton = tk.Button(clientDetails, text='Format',
-                              command=self.formatDateWidget)
+        nameEntry = tk.Entry(clientDetails, textvariable=self.info.name, width=60)
+        dobLabel = tk.Label(clientDetails, text='DoB : ')
+        dobEntry = tk.Entry(clientDetails, textvariable=self.info.dob, width=10)
+        dobButton = tk.Button(clientDetails, text='Format')
+        dateLabel = tk.Label(clientDetails, text='Test date :')
+        dateEntry = tk.Entry(clientDetails, textvariable=self.info.date, width=10)
+        dateButton = tk.Button(clientDetails, text='Format', command=self.formatDateWidget)
 
         nameLabel.grid(row=0, column=0)
-        nameEntry.grid(row=0, column=1)
-        dobLabel.grid(row=0, column=2)
-        dobEntry.grid(row=0, column=3)
-        dobButton.grid(row=0, column=4)
+        nameEntry.grid(row=0, column=1, columnspan=5, sticky='W')
+        dateLabel.grid(row=1, column=0, sticky='W')
+        dateEntry.grid(row=1, column=1, sticky='W')
+        dateButton.grid(row=1, column=2)
+        dobLabel.grid(row=1, column=3, sticky='W')
+        dobEntry.grid(row=1, column=4, sticky='W')
+        dobButton.grid(row=1, column=5)
 
         clientDetails.pack(fill='both', expand=True, side=tk.TOP)
 
