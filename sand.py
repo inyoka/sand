@@ -11,18 +11,18 @@ class MainApplication(tk.Frame):
         information = info()
         self.parent = parent
 
-        #self.toolbar = Toolbar(self, information)
+        self.menus = Menus(self, information)
         self.header = Header(self, information)
         self.questionnaire = Questionnaire(self, information)
         self.buttons = Buttons(self, information)
 
-        #self.toolbar.pack(side="top", fill="x")
+        self.menus.pack(side="top", fill="x")
         self.header.pack(side='top', fill='x', expand=True)
         self.questionnaire.pack(side='top', fill='x', expand=True)
         self.buttons.pack(side='bottom', fill='x', expand=True)
 
 
-class Toolbar(tk.Frame):
+class Menus(tk.Frame):
     def __init__(self, parent, information):
         menubar = tk.Menu(root)
         information = info()
