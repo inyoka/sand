@@ -1,6 +1,7 @@
-import tkinter as tk
+#!/usr/bin/env python3 -tt
+import tkinter as tk 
+import datetime
 from tkinter import ttk 
-        
 from client import info
 from tkinter.messagebox import askquestion
 
