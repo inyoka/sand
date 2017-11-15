@@ -25,17 +25,18 @@ class MainApplication(tk.Frame):
 
 class Menus(tk.Frame):
     def __init__(self, parent, information):
+        super(Menus, self).__init__()
+
         menubar = tk.Menu(root)
         information = info()
         filemenu = tk.Menu(menubar, tearoff=0 ) # File menu
         root.config(menu=menubar) # this line actually displays menu
 
-        fileMenu= tk.Menu(menuBar, tearoff=0)  
-        fileMenu.add_command(label="New")  
+        fileMenu= tk.Menu(menubar, tearoff=0)  
+        fileMenu.add_command(label="Reset", command=lambda: Buttons.rstConfirm)  
         fileMenu.add_separator()  
-        fileMenu.add_command(label="Exit", command=_quit)  
-        menuBar.add_cascade(label="File", menu=fileMenu)  
-
+        fileMenu.add_command(label="Exit", command=root.quit)  
+        menubar.add_cascade(label="File", menu=fileMenu)  
 
 
 class Header(tk.Frame):
