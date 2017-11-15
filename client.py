@@ -1,5 +1,6 @@
 #!/usr/bin/env python3 -tt
 import tkinter as tk
+import datetime
 from tkinter.filedialog import asksaveasfile
 from tkinter.filedialog import asksaveasfilename
 import csv
@@ -17,7 +18,8 @@ class info():
                        'prosocial': [1, 4, 9, 17, 20]}
         self.incomplete = set()
         self.name = tk.StringVar()
-        self.dob = tk.StringVar()
+        self.dob = tk.StringVar(value='01/12/2000')
+        self.date = tk.StringVar(value=datetime.datetime.today().strftime('%d/%m/%Y'))
         self.buttons = []
         self.answers = []
         self.fnlScore = {}
@@ -26,6 +28,7 @@ class info():
     def resetFields(self):
         self.name.set(value='')
         self.dob.set(value='')
+        self.date.set(value=datetime.datetime.today().strftime('%d/%m/%Y'))
         for a in self.answers:
              a.set(value = -1)
 
