@@ -34,6 +34,14 @@ class info():
             self.eval.set(value='')
             self.dob.set(value='')
             self.date.set(value=datetime.datetime.today().strftime('%d/%m/%Y'))
+            for a in self.answers:
+                a.set(value = -1)
+
+    def rstRadio(self):
+        result = askquestion("Delete", "Are You Sure?", icon='warning')
+        if result == 'yes':
+            for a in self.answers:
+                a.set(value = -1)
 
     def addScore(self, trait):
         self.lineNumbers = self.traits[trait]
