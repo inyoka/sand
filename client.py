@@ -133,3 +133,40 @@ class info():
             w.writerow(['Total score  :']+[self.stressScore])
             f.close()
         f.close()
+
+    def toSpreadsheet(self):
+        self.setup()
+
+        name = asksaveasfile(mode='w', initialfile = 'sand', defaultextension=".csv")
+        if name is None:
+            return
+        with name as f:
+            w = csv.writer(f)
+            dt = time.strftime("%a %d-%m-%Y %H:%M:%S", time.localtime())
+            w.writerow(['No.']+['ID']+['Evaluator']+['Date']+['DoB']+['Pro-Social']+['Hyperactivity']+['Emotional']
+                    +['Conduct']+['Peer']+['Total']+['Incomplete'])
+            w.writerow(['']+[self.name.get()]+[self.eval.get()]+[self.date.get()]+[self.dob.get()]
+                    +[str(self.fnlScore['prosocial'])]
+                    +[str(self.fnlScore['hyperactivity'])]
+                    +[str(self.fnlScore['emotional'])]
+                    +[str(self.fnlScore['conduct'])]
+                    +[str(self.fnlScore['peer'])]
+                    +[str(self.stressScore)]
+                    +[a for a in list(self.incomplete)])
+            f.close()
+        f.close()
+
+    def appendSpreadsheet(self):
+        self.setup()
+
+        with open(os.path.expanduser('~/Desktop')+'/sand.csv', 'a') as f:
+            w = csv.writer(f)
+            w.writerow(['']+[self.name.get()]+[self.eval.get()]+[self.date.get()]+[self.dob.get()]
+                    +[str(self.fnlScore['prosocial'])]
+                    +[str(self.fnlScore['hyperactivity'])]
+                    +[str(self.fnlScore['emotional'])]
+                    +[str(self.fnlScore['conduct'])]
+                    +[str(self.fnlScore['peer'])]
+                    +[str(self.stressScore)]
+                    +[a for a in list(self.incomplete)])
+            f.close()
