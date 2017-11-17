@@ -20,10 +20,22 @@ class MainApplication(ttk.Frame):
         self.buttons = Buttons(self, information)
 
         self.menu.pack(side="top", fill="x")
+        self.toolbar.pack(side="top", fill="x")
         self.header.pack(side='top', fill='x', expand=True)
         self.questionnaire.pack(side='top', fill='x', expand=True)
         self.buttons.pack(side='bottom', fill='x', expand=True)
 
+class Toolbar(ttk.Frame):
+    def __init__(self, parent, information):
+        super(Toolbar, self).__init__()
+        self.info = information
+
+        toolbar = ttk.Frame(self) 
+        insertButt = ttk.Button(toolbar, text="Test", command=root.quit)
+        insertButt.pack(side="left")
+        deleteButt = ttk.Button(toolbar, text="Test", command=root.quit)
+        deleteButt.pack(side="left")
+        toolbar.pack()
 
 class Menu(ttk.Frame):
     def __init__(self, parent, information):
