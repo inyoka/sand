@@ -68,10 +68,9 @@ class info():
                             yscrollcommand=scrollbar.set,
                             borderwidth=1, highlightthickness=0)
 
-        dt = time.strftime("%a %d-%m-%Y %H:%M:%S", time.localtime())
         txtScroll.insert(tk.INSERT, 'Client name  :'+self.name.get()+'\n')
         txtScroll.insert(tk.INSERT, 'Birth date   :'+self.dob.get()+'\n')
-        txtScroll.insert(tk.INSERT, 'Survey date  :'+dt+'\n')
+        txtScroll.insert(tk.INSERT, 'Survey date  :'+self.date.get()+'\n')
         txtScroll.insert(tk.INSERT, 'Incomplete   :'+', '.join(a for a in self.incomplete)+'\n')
         txtScroll.insert(tk.INSERT, 'PRO-SOCIAL   :'+str(self.fnlScore['prosocial'])+'\n')
         txtScroll.insert(tk.INSERT, 'Hyperactivity:'+str(self.fnlScore['hyperactivity'])+'\n')
