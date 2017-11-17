@@ -2,7 +2,7 @@
 import tkinter as tk 
 import datetime
 from date import DateEntry
-from tkinter import ttk 
+from tkinter import ttk, font
 from client import info
 from tkinter.messagebox import askquestion
 
@@ -160,6 +160,8 @@ class Buttons(tk.Frame):
 
 if __name__ == '__main__':
     root = tk.Tk()
+    default_font = font.nametofont("TkDefaultFont")
+    default_font.configure(family='Verdana',size=12, weight='normal')
     root.wm_title('Strengths & Difficulties - SAND')
     MainApplication(root).pack(side='top', fill='both', expand=True)
     root.mainloop()
