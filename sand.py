@@ -71,6 +71,30 @@ class Menu(ttk.Frame):
         #root.quit
 
 
+class Buttons(ttk.Frame):
+    def __init__(self, parent, information):
+        super(Buttons, self).__init__()
+        self.parent = parent
+        self.info = information
+        buttons = ttk.Frame(self)
+
+        rstButton = ttk.Button(buttons, text="Reset All", command=self.info.rstAll)
+        winButton = ttk.Button(buttons, text="View", command=self.info.toWin)
+        txtButton = ttk.Button(buttons, text="To text", command=self.info.toTxt)
+        sprButton = ttk.Button(buttons, text="Append Spreadsheet", command=self.info.appendSpreadsheet)
+        extButton = ttk.Button(buttons, text="Quit", command=self.exit)
+
+        rstButton.grid(row=0, column=0, sticky='w')
+        winButton.grid(row=0, column=1, sticky='e')
+        sprButton.grid(row=0, column=2)
+        txtButton.grid(row=0, column=3)
+
+        buttons.grid_columnconfigure(1, weight=1)
+        buttons.pack(fill='both', expand=True, side=tk.TOP, pady=5)
+
+    def exit(self):
+        print('Exiting application')
+        root.quit()
 
 
 class Header(ttk.Frame):
@@ -158,31 +182,6 @@ class Questionnaire(ttk.Frame):
             self.info.buttons.append(button)
             self.info.answers.append(self.var)
 
-class Buttons(ttk.Frame):
-    def __init__(self, parent, information):
-        super(Buttons, self).__init__()
-        self.parent = parent
-        self.info = information
-        buttons = ttk.Frame(self)
-
-        rstButton = ttk.Button(buttons, text="Reset All", command=self.info.rstConfirm)
-        winButton = ttk.Button(buttons, text="View", command=self.info.toWin)
-        csvButton = ttk.Button(buttons, text="Save .csv", command=self.info.toCSV)
-        txtButton = ttk.Button(buttons, text="Save .txt", command=self.info.toTxt)
-        extButton = ttk.Button(buttons, text="Quit", command=self.exit)
-
-        rstButton.grid(row=0, column=0, sticky='w')
-        winButton.grid(row=0, column=2)
-        csvButton.grid(row=0, column=3)
-        txtButton.grid(row=0, column=4)
-        extButton.grid(row=0, column=5)
-
-        buttons.grid_columnconfigure(1, weight=1)
-        buttons.pack(fill='both', expand=True, side=tk.TOP, pady=5)
-
-    def exit(self):
-        print('Exiting application')
-        root.quit()
 
 if __name__ == '__main__':
     root = tk.Tk()
