@@ -6,6 +6,7 @@ from tkinter.filedialog import asksaveasfilename
 from tkinter.messagebox import askquestion
 import csv
 import time
+import os
 
 
 class info():
