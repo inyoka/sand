@@ -5,6 +5,7 @@ from date import DateEntry
 from tkinter import ttk, font
 from client import info
 from tkinter.messagebox import askquestion
+import sys
 
 
 class MainApplication(ttk.Frame):
