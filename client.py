@@ -3,6 +3,7 @@ import tkinter as tk
 import datetime
 from tkinter.filedialog import asksaveasfile
 from tkinter.filedialog import asksaveasfilename
+from tkinter.messagebox import askquestion
 import csv
 import time
 
@@ -24,6 +25,13 @@ class info():
         self.answers = []
         self.fnlScore = {}
         self.stressScore = int()
+
+
+    def rstConfirm(self):
+        result = askquestion("Delete", "Are You Sure?", icon='warning')
+        if result == 'yes':
+            self.resetFields()
+
 
     def resetFields(self):
         self.name.set(value='')

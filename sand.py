@@ -27,14 +27,15 @@ class MainApplication(tk.Frame):
 class Menus(tk.Frame):
     def __init__(self, parent, information):
         super(Menus, self).__init__()
+        self.info = information
 
         menubar = tk.Menu(root)
-        information = info()
+        #information = info()
         filemenu = tk.Menu(menubar, tearoff=0 ) # File menu
         root.config(menu=menubar) # this line actually displays menu
 
         fileMenu= tk.Menu(menubar, tearoff=0)  
-        fileMenu.add_command(label="Reset", command=lambda: Buttons.rstConfirm)  
+        fileMenu.add_command(label="Reset", command=self.info.rstConfirm)  
         fileMenu.add_separator()  
         fileMenu.add_command(label="Exit", command=root.quit)  
         menubar.add_cascade(label="File", menu=fileMenu)  
@@ -134,7 +135,7 @@ class Buttons(tk.Frame):
         self.info = information
         buttons = tk.Frame(self)
 
-        rstButton = ttk.Button(buttons, text="Reset All", command=self.rstConfirm)
+        rstButton = ttk.Button(buttons, text="Reset All", command=self.info.rstConfirm)
         winButton = tk.Button(buttons, text="View", command=self.info.toWin)
         csvButton = tk.Button(buttons, text="Save .csv", command=self.info.toCSV)
         txtButton = tk.Button(buttons, text="Save .txt", command=self.info.toTxt)
@@ -148,11 +149,6 @@ class Buttons(tk.Frame):
 
         buttons.grid_columnconfigure(1, weight=1)
         buttons.pack(fill='both', expand=True, side=tk.TOP, pady=5)
-
-    def rstConfirm(self):
-        result = askquestion("Delete", "Are You Sure?", icon='warning')
-        if result == 'yes':
-            self.info.resetFields()
 
     def exit(self):
         print('Exiting application')
