@@ -1,4 +1,5 @@
 import tkinter as tk
+import datetime
 
 
 class DateEntry(tk.Frame):
@@ -33,24 +34,27 @@ class DateEntry(tk.Frame):
 
     def _e1_check(self, e):
         cont = self.entry_1.get()
-        if len(cont) >= 2:
-            self.entry_2.focus()
-        if len(cont) > 2 or not cont[-1].isdigit():
-            self._backspace(self.entry_1)
-            self.entry_1.focus()
+        if cont:
+            if len(cont) >= 2:
+                self.entry_2.focus()
+            if len(cont) > 2 or not cont[-1].isdigit():
+                self._backspace(self.entry_1)
+                self.entry_1.focus()
 
     def _e2_check(self, e):
         cont = self.entry_2.get()
-        if len(cont) >= 2:
-            self.entry_3.focus()
-        if len(cont) > 2 or not cont[-1].isdigit():
-            self._backspace(self.entry_2)
-            self.entry_2.focus()
+        if cont:
+            if len(cont) >= 2:
+                self.entry_3.focus()
+            if len(cont) > 2 or not cont[-1].isdigit():
+                self._backspace(self.entry_2)
+                self.entry_2.focus()
 
     def _e3_check(self, e):
         cont = self.entry_2.get()
-        if len(cont) > 4 or not cont[-1].isdigit():
-            self._backspace(self.entry_3)
+        if cont:
+            if len(cont) > 4 or not cont[-1].isdigit():
+                self._backspace(self.entry_3)
 
     def get(self):
         return self.entry_1.get(), self.entry_2.get(), self.entry_3.get()
