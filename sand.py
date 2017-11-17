@@ -44,13 +44,33 @@ class Menu(ttk.Frame):
 
         menubar = tk.Menu(root)
         filemenu = tk.Menu(menubar, tearoff=0 ) # File menu
+        editmenu = tk.Menu(menubar, tearoff=0 ) # Edit menu
         root.config(menu=menubar) # this line actually displays menu
 
         fileMenu= tk.Menu(menubar, tearoff=0)  
-        fileMenu.add_command(label="Reset", command=self.info.rstConfirm)  
+        fileMenu.add_command(label="Save to .txt", command=self.info.toTxt)  
+        fileMenu.add_command(label="Save to .csv", command=self.info.toCSV)  
+        fileMenu.add_command(label="Save to New Spreadsheet", command=self.info.toSpreadsheet)  
+        fileMenu.add_command(label="Append to Spreadsheet", command=self.info.appendSpreadsheet)  
         fileMenu.add_separator()  
-        fileMenu.add_command(label="Exit", command=root.quit)  
+        fileMenu.add_command(label="Exit", underline=1, command=root.quit, accelerator="Ctrl+Q")  
+
+        #self.bind_all("<Control-a>", self.info.toSpreadsheet)
+        self.bind_all("<Control-q>", self.quit)
+
+        editMenu= tk.Menu(menubar, tearoff=0)  
+        editMenu.add_command(label="Reset Radio-Buttons", command=self.info.rstRadio)  
+        editMenu.add_command(label="Reset All", command=self.info.rstAll)  
+
         menubar.add_cascade(label="File", menu=fileMenu)  
+        menubar.add_cascade(label="Edit", menu=editMenu)  
+
+    def quit(self, event):
+        print("quitting...")
+        sys.exit(0)
+        #root.quit
+
+
 
 
 class Header(ttk.Frame):
