@@ -14,13 +14,13 @@ class MainApplication(ttk.Frame):
         self.parent = parent
 
         self.menu = Menu(self, information)
-        self.toolbar = Toolbar(self, information)
+        #self.toolbar = Toolbar(self, information)
         self.header = Header(self, information)
         self.questionnaire = Questionnaire(self, information)
         self.buttons = Buttons(self, information)
 
         self.menu.pack(side="top", fill="x")
-        self.toolbar.pack(side="top", fill="x")
+        #self.toolbar.pack(side="top", fill="x")
         self.header.pack(side='top', fill='x', expand=True)
         self.questionnaire.pack(side='top', fill='x', expand=True)
         self.buttons.pack(side='bottom', fill='x', expand=True)

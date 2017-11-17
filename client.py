@@ -27,19 +27,13 @@ class info():
         self.stressScore = int()
 
 
-    def rstConfirm(self):
+    def rstAll(self):
         result = askquestion("Delete", "Are You Sure?", icon='warning')
         if result == 'yes':
-            self.resetFields()
-
-
-    def resetFields(self):
-        self.name.set(value='')
-        self.dob.set(value='')
-        self.date.set(value=datetime.datetime.today().strftime('%d/%m/%Y'))
-        for a in self.answers:
-             a.set(value = -1)
-
+            self.name.set(value='')
+            self.eval.set(value='')
+            self.dob.set(value='')
+            self.date.set(value=datetime.datetime.today().strftime('%d/%m/%Y'))
 
     def addScore(self, trait):
         self.lineNumbers = self.traits[trait]
