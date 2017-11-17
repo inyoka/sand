@@ -43,7 +43,6 @@ class Menu(ttk.Frame):
         self.info = information
 
         menubar = tk.Menu(root)
-        #information = info()
         filemenu = tk.Menu(menubar, tearoff=0 ) # File menu
         root.config(menu=menubar) # this line actually displays menu
 
