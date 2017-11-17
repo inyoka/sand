@@ -81,8 +81,8 @@ class Header(ttk.Frame):
 
         clientDetails.pack(fill='both', expand=True, side=tk.TOP)
 
-        headings = ['       Questions'+' '*85, 'Unknown', 'No   ', 'Maybe', '   Yes']
         header = ttk.Frame(self)
+        headings = ['       Questions'+' '*112, 'No   ', 'Maybe', '   Yes']
         for col, heading in enumerate(headings):
             labelheading = ttk.Label(header, text=heading, justify=tk.RIGHT)
             labelheading.grid(row=1, column=col, sticky=tk.E)
@@ -115,7 +115,7 @@ class Questionnaire(ttk.Frame):
             self.var = tk.IntVar(value=-1)
             # width = 5
             line = '{:5}'.format(number, fill=' ')+' : '+question.strip()
-            label = tk.Label(self.radioFrame, text=line)
+            label = tk.Label(self.radioFrame, font=('Consolas', 12), text='{: <75.75}'.format(line), pady=3)
             if number % 5 == 0:
                 label.configure(background='#d0d0d0')
             label.grid(row=number, column=0, sticky=tk.W)
