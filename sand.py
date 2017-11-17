@@ -13,13 +13,13 @@ class MainApplication(ttk.Frame):
         information = info()
         self.parent = parent
 
-        self.menus = Menus(self, information)
+        self.menu = Menu(self, information)
         self.toolbar = Toolbar(self, information)
         self.header = Header(self, information)
         self.questionnaire = Questionnaire(self, information)
         self.buttons = Buttons(self, information)
 
-        self.menus.pack(side="top", fill="x")
+        self.menu.pack(side="top", fill="x")
         self.header.pack(side='top', fill='x', expand=True)
         self.questionnaire.pack(side='top', fill='x', expand=True)
         self.buttons.pack(side='bottom', fill='x', expand=True)
@@ -27,7 +27,7 @@ class MainApplication(ttk.Frame):
 
 class Menu(ttk.Frame):
     def __init__(self, parent, information):
-        super(Menus, self).__init__()
+        super(Menu, self).__init__()
         self.info = information
 
         menubar = tk.Menu(root)
