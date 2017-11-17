@@ -109,6 +109,8 @@ class Header(ttk.Frame):
 
         nameLabel = ttk.Label(clientDetails, text='ID : ')
         nameEntry = ttk.Entry(clientDetails, textvariable=self.info.name, width=60)
+        evalLabel = ttk.Label(clientDetails, text='Evaluator : ')
+        evalEntry = ttk.Entry(clientDetails, textvariable=self.info.eval, width=60)
         dobLabel = ttk.Label(clientDetails, text='DoB : ')
         dobEntry = ttk.Entry(clientDetails, textvariable=self.info.dob, width=10)
         dobButton = ttk.Button(clientDetails, text='Format')
@@ -116,12 +118,14 @@ class Header(ttk.Frame):
         dateEntry = ttk.Entry(clientDetails, textvariable=self.info.date, width=10)
         dateButton = ttk.Button(clientDetails, text='Format', command=self.formatDateWidget)
 
-        nameLabel.grid(row=0, column=0)
+        nameLabel.grid(row=0, column=0, sticky='E')
         nameEntry.grid(row=0, column=1, columnspan=5, sticky='W')
-        dobLabel.grid(row=1, column=1, sticky='W')
-        dobEntry.grid(row=1, column=2, sticky='W')
-        dateLabel.grid(row=1, column=3, sticky='W')
-        dateEntry.grid(row=1, column=4, sticky='W')
+        evalLabel.grid(row=1, column=0, sticky='E')
+        evalEntry.grid(row=1, column=1, columnspan=5, sticky='W')
+        dobLabel.grid(row=2, column=1, sticky='W')
+        dobEntry.grid(row=2, column=2, sticky='W')
+        dateLabel.grid(row=2, column=3, sticky='W')
+        dateEntry.grid(row=2, column=4, sticky='W')
 
         clientDetails.pack(fill='both', expand=True, side=tk.TOP)
 
