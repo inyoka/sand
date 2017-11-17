@@ -61,12 +61,12 @@ class Header(tk.Frame):
 
         nameLabel.grid(row=0, column=0)
         nameEntry.grid(row=0, column=1, columnspan=5, sticky='W')
-        dateLabel.grid(row=1, column=0, sticky='W')
-        dateEntry.grid(row=1, column=1, sticky='W')
-        dateButton.grid(row=1, column=2)
-        dobLabel.grid(row=1, column=3, sticky='W')
-        dobEntry.grid(row=1, column=4, sticky='W')
-        dobButton.grid(row=1, column=5)
+        dobLabel.grid(row=1, column=1, sticky='W')
+        dobEntry.grid(row=1, column=2, sticky='W')
+        dateLabel.grid(row=1, column=3, sticky='W')
+        dateEntry.grid(row=1, column=4, sticky='W')
+        #dateButton.grid(row=1, column=2)
+        #dobButton.grid(row=1, column=5)
 
         clientDetails.pack(fill='both', expand=True, side=tk.TOP)
 
