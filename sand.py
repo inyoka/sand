@@ -51,7 +51,7 @@ class Header(tk.Frame):
 
         # Command Buttons
 
-        nameLabel = tk.Label(clientDetails, text='Name / Ref : ')
+        nameLabel = tk.Label(clientDetails, text='ID : ')
         nameEntry = tk.Entry(clientDetails, textvariable=self.info.name, width=60)
         dobLabel = tk.Label(clientDetails, text='DoB : ')
         dobEntry = tk.Entry(clientDetails, textvariable=self.info.dob, width=10)
@@ -66,13 +66,11 @@ class Header(tk.Frame):
         dobEntry.grid(row=1, column=2, sticky='W')
         dateLabel.grid(row=1, column=3, sticky='W')
         dateEntry.grid(row=1, column=4, sticky='W')
-        #dateButton.grid(row=1, column=2)
-        #dobButton.grid(row=1, column=5)
 
         clientDetails.pack(fill='both', expand=True, side=tk.TOP)
 
         header = tk.Frame(self)
-        headings = ['       Questions'+' '*90, 'Unknown', 'No   ', 'Maybe', '   Yes']
+        headings = ['       Questions'+' '*85, 'Unknown', 'No   ', 'Maybe', '   Yes']
         for col, heading in enumerate(headings):
             labelheading = tk.Label(header, text=heading, justify=tk.RIGHT)
             labelheading.grid(row=1, column=col, sticky=tk.E)
