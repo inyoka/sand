@@ -19,6 +19,7 @@ class info():
                        'prosocial': [1, 4, 9, 17, 20]}
         self.incomplete = set()
         self.name = tk.StringVar()
+        self.eval = tk.StringVar()
         self.dob = tk.StringVar(value='01/12/2000')
         self.date = tk.StringVar(value=datetime.datetime.today().strftime('%d/%m/%Y'))
         self.buttons = []
