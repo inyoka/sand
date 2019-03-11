@@ -12,9 +12,23 @@ Add DoB field and calculate age
 Implement File menus
 Allow the attachment of Notes
 Store results in searchable database.
+Scrollbar for Windows 10
 
 Done
 ----
 
 Automatically use student name as filename.
 Fix reset to clear Radio button results
+
+
+
+
+       scrollbar = ttk.Scrollbar(parent)
+        scrollbar.pack(side='right', fill='y')
+
+        listbox = tk.Listbox(parent, yscrollcommand=scrollbar.set)
+        for i in range(1000):
+            listbox.insert('end', str(i))
+        listbox.pack(side='left', fill='both')
+
+        scrollbar.config(command=listbox.yview)
