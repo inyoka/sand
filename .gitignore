@@ -98,3 +98,4 @@ py/
 *.swp
 
 setup.py
+.vscode/settings.json
