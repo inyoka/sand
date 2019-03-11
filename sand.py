@@ -161,9 +161,7 @@ class Questionnaire(ttk.Frame):
             label.grid(row=number, column=0, sticky=tk.W)
             options = ['?', 'N', 'M', 'Y']
             for answer in range(-1, 3):
-                                        variable=self.var,
-                                        text=options[answer+1], width=5,
-                                        indicatoron=0)
+                button = tk.Radiobutton(self.radioFrame, borderwidth=1, variable=self.var, text=options[answer+1], width=5, indicatoron=0)
                 button.configure(value=answer)
                 if number in reverse:
                     if answer == 0:
