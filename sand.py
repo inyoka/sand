@@ -54,9 +54,9 @@ class Menu(ttk.Frame):
         fileMenu.add_command(label="Save to New Spreadsheet", command=self.info.toSpreadsheet)  
         fileMenu.add_command(label="Append to Spreadsheet", command=self.info.appendSpreadsheet, accelerator="Ctrl+A")  
         fileMenu.add_separator()  
-        fileMenu.add_command(label="Exit", underline=1, command=root.quit, accelerator="Ctrl+Q")  
+        fileMenu.add_command(label="Exit", underline=1, command=exit, accelerator="Ctrl+Q")  
 
-        #self.bind_all("<Control-a>", self.info.toSpreadsheet)
+        self.bind_all("<Control-a>", self.info.appendSpreadsheet)
         self.bind_all("<Control-q>", self.quit)
 
         editMenu= tk.Menu(menubar, tearoff=0)  
@@ -65,11 +65,6 @@ class Menu(ttk.Frame):
 
         menubar.add_cascade(label="File", menu=fileMenu)  
         menubar.add_cascade(label="Edit", menu=editMenu)  
-
-    def quit(self, event):
-        print("quitting...")
-        sys.exit(0)
-        #root.quit
 
 
 class Buttons(ttk.Frame):
@@ -83,7 +78,7 @@ class Buttons(ttk.Frame):
         winButton = ttk.Button(buttons, text="View", command=self.info.toWin)
         txtButton = ttk.Button(buttons, text="To text", command=self.info.toTxt)
         sprButton = ttk.Button(buttons, text="Append Spreadsheet", command=self.info.appendSpreadsheet)
-        extButton = ttk.Button(buttons, text="Quit", command=self.exit)
+        extButton = ttk.Button(buttons, text="Quit", command=exit)
 
         rstButton.grid(row=0, column=0, sticky='w')
         winButton.grid(row=0, column=1, sticky='e')
@@ -92,10 +87,6 @@ class Buttons(ttk.Frame):
 
         buttons.grid_columnconfigure(1, weight=1)
         buttons.pack(fill='both', expand=True, side=tk.TOP, pady=5)
-
-    def exit(self):
-        print('Exiting application')
-        root.quit()
 
 
 class Header(ttk.Frame):
@@ -187,6 +178,11 @@ class Questionnaire(ttk.Frame):
             self.info.buttons.append(button)
             self.info.answers.append(self.var)
 
+def exit():
+    result = askquestion("Exit", "Are you sure?\n\n have you saved?", icon='warning')
+    if result == 'yes':
+        print('Exiting application')
+        root.quit()
 
 if __name__ == '__main__':
     root = tk.Tk()
