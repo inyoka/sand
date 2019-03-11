@@ -47,6 +47,7 @@ class Menu(ttk.Frame):
         menubar = tk.Menu(root)
         filemenu = tk.Menu(menubar, tearoff=0 ) # File menu
         editmenu = tk.Menu(menubar, tearoff=0 ) # Edit menu
+        helpmenu = tk.Menu(menubar, tearoff=0 ) # Help menu
         root.config(menu=menubar) # this line actually displays menu
 
         fileMenu= tk.Menu(menubar, tearoff=0)  
@@ -64,8 +65,12 @@ class Menu(ttk.Frame):
         editMenu.add_command(label="Reset Radio-Buttons", command=self.info.rstRadio)  
         editMenu.add_command(label="Reset All", command=self.info.rstAll)  
 
+        helpMenu= tk.Menu(menubar, tearoff=0)  
+        helpMenu.add_command(label="Help", command=help)  
+        helpMenu.add_command(label="Upgrade", command=upgrade)
         menubar.add_cascade(label="File", menu=fileMenu)  
         menubar.add_cascade(label="Edit", menu=editMenu)  
+        menubar.add_cascade(label="Help", menu=helpMenu)  
 
 
 class Buttons(ttk.Frame):
