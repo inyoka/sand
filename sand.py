@@ -1,12 +1,14 @@
 #!/usr/bin/env python3 -tt
 import tkinter as tk 
 import datetime
+import sys, os, platform
+
 from date import DateEntry
 from tkinter import ttk, font
 from client import info
-from tkinter.messagebox import askquestion, askokcancel
+from tkinter.messagebox import askquestion, askokcancel, showinfo
 from resources import questions
-import sys
+
 
 
 class MainApplication(ttk.Frame):
