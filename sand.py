@@ -5,6 +5,7 @@ from date import DateEntry
 from tkinter import ttk, font
 from client import info
 from tkinter.messagebox import askquestion, askokcancel
+from resources import questions
 import sys
 
 
@@ -148,10 +149,8 @@ class Questionnaire(ttk.Frame):
         self.questions.pack(fill='both', expand=True, side=tk.TOP)
 
     def askQuestions(self):
-        file = open('questions.txt')
-        questionlist = file.readlines()
         reverse = [7, 11, 14, 21, 25]
-        for number, question in enumerate(questionlist, 1):
+        for number, question in enumerate(questions, 1):
             self.var = tk.IntVar(value=-1)
             # width = 5
             line = '{:5}'.format(number, fill=' ')+' : '+question.strip()

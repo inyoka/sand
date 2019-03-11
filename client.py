@@ -4,6 +4,7 @@ import datetime
 from tkinter.filedialog import asksaveasfile
 from tkinter.filedialog import asksaveasfilename
 from tkinter.messagebox import askquestion
+from resources import questions
 import csv
 import time
 import os
@@ -11,8 +12,7 @@ import os
 
 class info():
     def __init__(self):
-        file = open('questions.txt')
-        self.width = len(max(file, key=len))
+        self.width = max(questions, key=len)
         self.traits = {'emotional': [3, 8, 13, 16, 24],
                        'conduct': [5, 7, 12, 18, 22],
                        'hyperactivity': [2, 10, 15, 21, 25],
