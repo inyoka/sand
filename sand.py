@@ -191,6 +191,10 @@ def on_closing():
     if askokcancel("Quit", "Do you want to quit?"):
         root.destroy()
 
+def help():
+    file = open('README.md', 'r')
+    showinfo("Help", file.read())
+
 if __name__ == '__main__':
     root = tk.Tk()
     root.iconbitmap("icon.ico")
