@@ -52,7 +52,7 @@ class Menu(ttk.Frame):
         fileMenu.add_command(label="Save to .txt", command=self.info.toTxt)  
         fileMenu.add_command(label="Save to .csv", command=self.info.toCSV)  
         fileMenu.add_command(label="Save to New Spreadsheet", command=self.info.toSpreadsheet)  
-        fileMenu.add_command(label="Append to Spreadsheet", command=self.info.appendSpreadsheet)  
+        fileMenu.add_command(label="Append to Spreadsheet", command=self.info.appendSpreadsheet, accelerator="Ctrl+A")  
         fileMenu.add_separator()  
         fileMenu.add_command(label="Exit", underline=1, command=root.quit, accelerator="Ctrl+Q")  
 
