@@ -1,5 +1,4 @@
-# SAND 
-## **S**trengths **AN**d **D**ifficulties Questionnaire
+# SAND - Strengths and Difficulties Questionnaire
 
 ---
 
