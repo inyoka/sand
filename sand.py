@@ -4,7 +4,7 @@ import datetime
 from date import DateEntry
 from tkinter import ttk, font
 from client import info
-from tkinter.messagebox import askquestion
+from tkinter.messagebox import askquestion, askokcancel
 import sys
 
 
@@ -183,6 +183,10 @@ def exit():
         print('Exiting application')
         root.quit()
 
+def on_closing():
+    if askokcancel("Quit", "Do you want to quit?"):
+        root.destroy()
+
 if __name__ == '__main__':
     root = tk.Tk()
     root.iconbitmap("img/icon.ico")
@@ -190,4 +194,5 @@ if __name__ == '__main__':
     default_font.configure(family='Verdana',size=12, weight='normal')
     root.wm_title('Strengths & Difficulties - SAND')
     MainApplication(root).pack(side='top', fill='both', expand=True)
+    root.protocol("WM_DELETE_WINDOW", on_closing)
     root.mainloop()
