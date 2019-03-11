@@ -186,7 +186,7 @@ def on_closing():
 
 if __name__ == '__main__':
     root = tk.Tk()
-    root.iconbitmap("img/icon.ico")
+    root.iconbitmap("icon.ico")
     default_font = font.nametofont("TkDefaultFont")
     default_font.configure(family='Verdana',size=12, weight='normal')
     root.wm_title('Strengths & Difficulties - SAND')
