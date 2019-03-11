@@ -16,6 +16,9 @@ _Used by PlayTherapy professionals._
 
 This project is far from complete and pull requests are welcomed.
 
+### Technical Details
+
+Uses Python 3 & tkinter, tested for functionality (but not beauty) on Mac and Windows.
 
 [Built using SetupTools into a distributable app.](https://www.metachris.com/2015/11/create-standalone-mac-os-x-applications-with-python-and-py2app/)
 
