@@ -195,6 +195,22 @@ def help():
     file = open('README.md', 'r')
     showinfo("Help", file.read())
 
+def upgrade():
+    if platform.system() == 'Windows':
+        showinfo("ERROR", "Windows client cannot update yet. Download new versions here : https://github.com/inyoka/sand.git")
+        return
+    else: 
+        result = askquestion("Upgrade Mac / Linux", "Are you sure you want to run an application upgrade? Program might become unstable.", icon='warning')
+        if result == 'yes':
+            try:
+                print("Performing 'git pull' ...")
+                os.system('git pull')
+                print("Appears to have been succesful.")
+                showinfo('UPGRADE', 'Done!!!')
+            except Exception as e:
+                print("Failed error: " + str(e))
+                showinfo('Upgrade Failed', str(e))
+
 if __name__ == '__main__':
     root = tk.Tk()
     root.iconbitmap("icon.ico")
