@@ -51,7 +51,7 @@ class info():
         for item in self.lineNumbers:
             if self.answers[item-1].get() > -1:
                 score = score + self.answers[item-1].get()
-            if self.answers[item-1].get() < 0:
+            else :
                 self.incomplete.add(trait)
         return(score)
 
