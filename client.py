@@ -101,17 +101,18 @@ class info():
         name = asksaveasfilename(initialfile = self.name.get(), defaultextension=".txt")
         if name is None:
             return
-        f = open(name, 'w')
-        f.write('Client name :' + self.name.get() + '\n')
-        f.write('Birth date  :' + self.dob.get() + '\n')
-        f.write('Survey date :' + time.strftime("%a %d-%m-%Y %H:%M:%S", time.gmtime()) + '\n')
-        f.write('Incomplete  :' + str(list(self.incomplete)) + '\n')
-        f.write('Stress score:' + str(self.stressScore) + '\n')
-        f.write('Emotional distress :' + str(self.fnlScore.get('emotional')) + '\n')
-        f.write('Behavioural difficulties :' + str(self.fnlScore.get('conduct')) + '\n')
-        f.write('Hyperactivity and concentration difficulties :' + str(self.fnlScore.get('hyperactivity')) + '\n')
-        f.write('Difficulties socialising with children :' + str(self.fnlScore.get('peer')) + '\n')
-        f.write('Kind and helpful behaviour :' + str(self.fnlScore.get('prosocial')) + '\n')
+        else:
+            f = open(name, 'w')
+            f.write('Client name :' + self.name.get() + '\n')
+            f.write('Birth date  :' + self.dob.get() + '\n')
+            f.write('Survey date :' + time.strftime("%a %d-%m-%Y %H:%M:%S", time.gmtime()) + '\n')
+            f.write('Incomplete  :' + str(list(self.incomplete)) + '\n')
+            f.write('Stress score:' + str(self.stressScore) + '\n')
+            f.write('Emotional distress :' + str(self.fnlScore.get('emotional')) + '\n')
+            f.write('Behavioural difficulties :' + str(self.fnlScore.get('conduct')) + '\n')
+            f.write('Hyperactivity and concentration difficulties :' + str(self.fnlScore.get('hyperactivity')) + '\n')
+            f.write('Difficulties socialising with children :' + str(self.fnlScore.get('peer')) + '\n')
+            f.write('Kind and helpful behaviour :' + str(self.fnlScore.get('prosocial')) + '\n')
 
     def toCSV(self):
         self.setup()
