@@ -69,18 +69,12 @@ class Buttons(ttk.Frame):
         self.info = information
         buttons = ttk.Frame(self)
 
-        rstButton = ttk.Button(buttons, text="Reset All", command=self.info.rstAll)
-        winButton = ttk.Button(buttons, text="View", command=self.info.toWin)
-        txtButton = ttk.Button(buttons, text="To text", command=self.info.toTxt)
-        sprButton = ttk.Button(buttons, text="Append Spreadsheet", command=self.info.appendSpreadsheet)
-        extButton = ttk.Button(buttons, text="Quit", command=exit)
+        resetButton = ttk.Button(buttons, text="Reset All", command=self.info.rstAll)
+        appendButton = ttk.Button(buttons, text="Append Spreadsheet", command=self.info.appendSpreadsheet)
 
-        rstButton.grid(row=0, column=0, sticky='w')
-        winButton.grid(row=0, column=1, sticky='e')
-        sprButton.grid(row=0, column=2)
-        txtButton.grid(row=0, column=3)
+        resetButton.pack(side='left', padx=5, fill='x', expand=True)
+        appendButton.pack(side='right', padx=5, fill='x', expand=True)
 
-        buttons.grid_columnconfigure(1, weight=1)
         buttons.pack(fill='both', expand=True, side=tk.TOP, pady=5)
 
 
