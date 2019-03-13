@@ -11,6 +11,21 @@ import csv, time, os
 pathname = os.path.expanduser(Path("~/Desktop/sand.csv"))
 today = datetime.date.today().strftime('%d/%m/%Y') 
 
+def writeHeadings(self, w):
+    w.writerow(['No.']+['ID']+['Evaluator']+['Date']+['DoB']+['Pro-Social']+['Hyperactivity']+['Emotional']
+        +['Conduct']+['Peer']+['Total']+['Incomplete'])
+
+def writeDetails(self, w):
+    w.writerow(['']+[self.name.get()]+[self.eval.get()]+[self.date.get()]+[self.dob.get()]
+        +[str(self.fnlScore['prosocial'])]
+        +[str(self.fnlScore['hyperactivity'])]
+        +[str(self.fnlScore['emotional'])]
+        +[str(self.fnlScore['conduct'])]
+        +[str(self.fnlScore['peer'])]
+        +[str(self.stressScore)]
+        +[a for a in list(self.incomplete)])
+
+
 class info():
     def __init__(self):
         self.width = max(questions, key=len)
@@ -79,17 +94,8 @@ class info():
         txtScroll = tk.Text(top, width=80, height=10, wrap="word",
                             yscrollcommand=scrollbar.set,
                             borderwidth=1, highlightthickness=0)
-
-        txtScroll.insert(tk.INSERT, 'Client name  :'+self.name.get()+'\n')
-        txtScroll.insert(tk.INSERT, 'Birth date   :'+self.dob.get()+'\n')
-        txtScroll.insert(tk.INSERT, 'Survey date  :'+self.date.get()+'\n')
-        txtScroll.insert(tk.INSERT, 'Incomplete   :'+', '.join(a for a in self.incomplete)+'\n')
-        txtScroll.insert(tk.INSERT, 'PRO-SOCIAL   :'+str(self.fnlScore['prosocial'])+'\n')
-        txtScroll.insert(tk.INSERT, 'Hyperactivity:'+str(self.fnlScore['hyperactivity'])+'\n')
-        txtScroll.insert(tk.INSERT, 'Emotional    :'+str(self.fnlScore['emotional'])+'\n')
-        txtScroll.insert(tk.INSERT, 'Conduct      :'+str(self.fnlScore['conduct'])+'\n')
-        txtScroll.insert(tk.INSERT, 'Peer         :'+str(self.fnlScore['peer'])+'\n')
-        txtScroll.insert(tk.INSERT, 'Total score  :'+str(self.stressScore))
+        for line in windowLines(self):
+            txtScroll.insert(tk.INSERT, line)
 
         scrollbar.config(command=txtScroll.yview)
         scrollbar.pack(side="right", fill="y")
@@ -105,16 +111,8 @@ class info():
             return
         else:
             f = open(name, 'w')
-            f.write('Client name :' + self.name.get() + '\n')
-            f.write('Birth date  :' + self.dob.get() + '\n')
-            f.write('Survey date :' + time.strftime("%a %d-%m-%Y %H:%M:%S", time.gmtime()) + '\n')
-            f.write('Incomplete  :' + str(list(self.incomplete)) + '\n')
-            f.write('Stress score:' + str(self.stressScore) + '\n')
-            f.write('Emotional distress :' + str(self.fnlScore.get('emotional')) + '\n')
-            f.write('Behavioural difficulties :' + str(self.fnlScore.get('conduct')) + '\n')
-            f.write('Hyperactivity and concentration difficulties :' + str(self.fnlScore.get('hyperactivity')) + '\n')
-            f.write('Difficulties socialising with children :' + str(self.fnlScore.get('peer')) + '\n')
-            f.write('Kind and helpful behaviour :' + str(self.fnlScore.get('prosocial')) + '\n')
+            for line in textLines(self):
+                f.write(line)
 
     def toCSV(self):
         self.setup()
@@ -124,17 +122,8 @@ class info():
             return
         with name as f:
             w = csv.writer(f)
-            dt = time.strftime("%a %d-%m-%Y %H:%M:%S", time.localtime())
-            w.writerow(['Client name  :']+[self.name.get()])
-            w.writerow(['Birth date   :']+[self.dob.get()])
-            w.writerow(['Survey date  :']+[dt])
-            w.writerow(['Incomplete   :']+[a for a in list(self.incomplete)])
-            w.writerow(['PRO-SOCIAL   :']+[str(self.fnlScore['prosocial'])])
-            w.writerow(['Hyperactivity:']+[str(self.fnlScore['hyperactivity'])])
-            w.writerow(['Emotional    :']+[str(self.fnlScore['emotional'])])
-            w.writerow(['Conduct      :']+[str(self.fnlScore['conduct'])])
-            w.writerow(['Peer         :']+[str(self.fnlScore['peer'])])
-            w.writerow(['Total score  :']+[self.stressScore])
+            for line in csvLines(self):
+                w.writerow(line)
             f.close()
         f.close()
 
@@ -147,30 +136,16 @@ class info():
         with name as f:
             w = csv.writer(f)
             dt = time.strftime("%a %d-%m-%Y %H:%M:%S", time.localtime())
-            w.writerow(['No.']+['ID']+['Evaluator']+['Date']+['DoB']+['Pro-Social']+['Hyperactivity']+['Emotional']
-                    +['Conduct']+['Peer']+['Total']+['Incomplete'])
-            w.writerow(['']+[self.name.get()]+[self.eval.get()]+[self.date.get()]+[self.dob.get()]
-                    +[str(self.fnlScore['prosocial'])]
-                    +[str(self.fnlScore['hyperactivity'])]
-                    +[str(self.fnlScore['emotional'])]
-                    +[str(self.fnlScore['conduct'])]
-                    +[str(self.fnlScore['peer'])]
-                    +[str(self.stressScore)]
-                    +[a for a in list(self.incomplete)])
+            writeHeadings(self, w)
+            writeDetails(self, w)
             f.close()
         f.close()
 
     def appendSpreadsheet(self):
-        self.setup()
-
-        with open(os.path.expanduser('~/Desktop')+'/sand.csv', 'a') as f:
-            w = csv.writer(f)
-            w.writerow(['']+[self.name.get()]+[self.eval.get()]+[self.date.get()]+[self.dob.get()]
-                    +[str(self.fnlScore['prosocial'])]
-                    +[str(self.fnlScore['hyperactivity'])]
-                    +[str(self.fnlScore['emotional'])]
-                    +[str(self.fnlScore['conduct'])]
-                    +[str(self.fnlScore['peer'])]
-                    +[str(self.stressScore)]
-                    +[a for a in list(self.incomplete)])
-            f.close()
+        result = askquestion("Append", "Append these results to spreadsheet?\n\nFilename : \n{}".format(pathname), icon='warning')
+        if result == 'yes':
+            self.setup()
+            with open(pathname, 'a') as f:
+                w = csv.writer(f)
+                writeDetails(self, w)
+                f.close()
