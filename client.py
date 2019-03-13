@@ -8,6 +8,9 @@ from resources import questions, textLines, csvLines, windowLines, generateLines
 import csv, time, os
 
 
+pathname = os.path.expanduser(Path("~/Desktop/sand.csv"))
+today = datetime.date.today().strftime('%d/%m/%Y') 
+
 class info():
     def __init__(self):
         self.width = max(questions, key=len)
@@ -20,7 +23,8 @@ class info():
         self.name = tk.StringVar()
         self.eval = tk.StringVar()
         self.dob = tk.StringVar(value='01/12/2000')
-        self.date = tk.StringVar(value=datetime.datetime.today().strftime('%d/%m/%Y'))
+        self.date = tk.StringVar(value=today)
+        self.time = time.strftime("%a %d-%m-%Y %H:%M:%S", time.localtime())
         self.buttons = []
         self.answers = []
         self.fnlScore = {}
@@ -33,7 +37,7 @@ class info():
             self.name.set(value='')
             self.eval.set(value='')
             self.dob.set(value='')
-            self.date.set(value=datetime.datetime.today().strftime('%d/%m/%Y'))
+            self.date.set(value=today)
             for a in self.answers:
                 a.set(value = -1)
 
