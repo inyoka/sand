@@ -1,13 +1,11 @@
 #!/usr/bin/env python3 -tt
 import tkinter as tk
 import datetime
-from tkinter.filedialog import asksaveasfile
-from tkinter.filedialog import asksaveasfilename
+from pathlib import Path
+from tkinter.filedialog import asksaveasfile, asksaveasfilename
 from tkinter.messagebox import askquestion
-from resources import questions
-import csv
-import time
-import os
+from resources import questions, textLines, csvLines, windowLines, generateLines
+import csv, time, os
 
 
 class info():

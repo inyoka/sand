@@ -1,7 +1,6 @@
 #!/usr/bin/env python3 -tt
 import tkinter as tk 
-import datetime
-import sys, os, platform
+import sys, os, platform, datetime
 
 from date import DateEntry
 from tkinter import ttk, font
