@@ -9,12 +9,10 @@ from tkinter.messagebox import askquestion, askokcancel, showinfo
 from resources import questions
 
 
-
 class MainApplication(ttk.Frame):
-    def __init__(self, parent, *args, **kwargs):
-        ttk.Frame.__init__(self)
+    def __init__(self, root, *args, **kwargs):
+        ttk.Frame.__init__(self, root)
         information = info()
-        self.parent = parent
 
         self.menu = Menu(self, information)
         self.header = Header(self, information)
