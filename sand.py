@@ -19,10 +19,10 @@ class MainApplication(ttk.Frame):
         self.questionnaire = Questionnaire(self, information)
         self.buttons = Buttons(self, information)
 
-        self.menu.pack(side="top", fill="x")
+        self.menu.pack(side='top', fill='x')
         self.header.pack(side='top', fill='x', expand=True)
         self.questionnaire.pack(side='top', fill='x', expand=True)
-        self.buttons.pack(side='bottom', fill='x', expand=True)
+        self.buttons.pack(side='top', fill='x')
 
 
 
@@ -34,6 +34,7 @@ class Menu(ttk.Frame):
         menubar = tk.Menu(root)
         filemenu = tk.Menu(menubar, tearoff=0 ) # File menu
         editmenu = tk.Menu(menubar, tearoff=0 ) # Edit menu
+        viewmenu = tk.Menu(menubar, tearoff=0 ) # Edit menu
         helpmenu = tk.Menu(menubar, tearoff=0 ) # Help menu
         root.config(menu=menubar) # this line actually displays menu
 
@@ -41,22 +42,23 @@ class Menu(ttk.Frame):
         fileMenu.add_command(label="Save to .txt", command=self.info.toTxt)  
         fileMenu.add_command(label="Save to .csv", command=self.info.toCSV)  
         fileMenu.add_command(label="Save to New Spreadsheet", command=self.info.toSpreadsheet)  
-        fileMenu.add_command(label="Append to Spreadsheet", command=self.info.appendSpreadsheet, accelerator="Ctrl+A")  
+        fileMenu.add_command(label="Append to Spreadsheet", underline=0, command=self.info.appendSpreadsheet, accelerator="Ctrl+A")  
         fileMenu.add_separator()  
         fileMenu.add_command(label="Exit", underline=1, command=exit, accelerator="Ctrl+Q")  
-
-        self.bind_all("<Control-a>", self.info.appendSpreadsheet)
-        self.bind_all("<Control-q>", self.quit)
 
         editMenu= tk.Menu(menubar, tearoff=0)  
         editMenu.add_command(label="Reset Radio-Buttons", command=self.info.rstRadio)  
         editMenu.add_command(label="Reset All", command=self.info.rstAll)  
+
+        viewMenu= tk.Menu(menubar, tearoff=0)  
+        viewMenu.add_command(label="Copy Text", command=self.info.toWin)  
 
         helpMenu= tk.Menu(menubar, tearoff=0)  
         helpMenu.add_command(label="Help", command=help)  
         helpMenu.add_command(label="Upgrade", command=upgrade)
         menubar.add_cascade(label="File", menu=fileMenu)  
         menubar.add_cascade(label="Edit", menu=editMenu)  
+        menubar.add_cascade(label="View", menu=viewMenu)  
         menubar.add_cascade(label="Help", menu=helpMenu)  
 
 
