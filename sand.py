@@ -111,10 +111,12 @@ class Header(ttk.Frame):
         clientDetails.pack(fill='both', expand=True, side=tk.TOP)
 
         header = ttk.Frame(self)
-        headings = ['       Questions'+' '*112, 'No   ', 'Maybe', '   Yes']
-        for col, heading in enumerate(headings):
-            labelheading = ttk.Label(header, text=heading, justify=tk.RIGHT)
-            labelheading.grid(row=1, column=col, sticky=tk.E)
+
+        labelheading = ttk.Label(header, text='       Questions', justify=tk.RIGHT)
+        labelheading.pack(side='left', fill='x')
+        labelheading = ttk.Label(header, text='No   Maybe   Yes  ', justify=tk.RIGHT)
+        labelheading.pack(side='right')
+
         header.pack(fill='both', expand=True, side=tk.TOP)
 
     def formatDateWidget(self):
