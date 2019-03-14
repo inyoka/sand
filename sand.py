@@ -21,6 +21,7 @@ class MainApplication(ttk.Frame):
 
         self.menu.pack(side='top', fill='x')
         self.header.pack(side='top', fill='x', expand=True)
+        self.f = ttk.Separator(root).pack(side='top', fill='x', expand=True)
         self.questionnaire.pack(side='top', fill='x', expand=True)
         self.buttons.pack(side='top', fill='x')
 
