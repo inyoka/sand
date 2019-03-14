@@ -113,7 +113,7 @@ class Header(ttk.Frame):
 
         header = ttk.Frame(self)
 
-        labelheading = ttk.Label(header, text='       Questions', justify=tk.RIGHT)
+        labelheading = ttk.Label(header, text='     Questions'.center(78, ' '), font=('Consolas', sizeOfFont), justify=tk.RIGHT)
         labelheading.pack(side='left', fill='x')
         labelheading = ttk.Label(header, text='No   Maybe   Yes  ', justify=tk.RIGHT)
         labelheading.pack(side='right')
