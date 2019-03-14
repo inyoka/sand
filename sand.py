@@ -89,9 +89,9 @@ class Header(ttk.Frame):
         # Command Buttons
 
         nameLabel = ttk.Label(clientDetails, text='ID : ')
-        nameEntry = ttk.Entry(clientDetails, textvariable=self.info.name, width=60)
+        nameEntry = ttk.Entry(clientDetails, textvariable=self.info.name, width=55)
         evalLabel = ttk.Label(clientDetails, text='Evaluator : ')
-        evalEntry = ttk.Entry(clientDetails, textvariable=self.info.eval, width=60)
+        evalEntry = ttk.Entry(clientDetails, textvariable=self.info.eval, width=55)
         dobLabel = ttk.Label(clientDetails, text='   DoB : ')
         dobEntry = ttk.Entry(clientDetails, textvariable=self.info.dob, width=10)
         dobButton = ttk.Button(clientDetails, text='Format')
