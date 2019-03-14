@@ -93,7 +93,7 @@ class Header(ttk.Frame):
         nameEntry = ttk.Entry(clientDetails, textvariable=self.info.name, width=55)
         evalLabel = ttk.Label(clientDetails, text='Evaluator : ')
         evalEntry = ttk.Entry(clientDetails, textvariable=self.info.eval, width=55)
-        dobLabel = ttk.Label(clientDetails, text='   DoB : ')
+        dobLabel = ttk.Label(clientDetails, text='DoB : '.rjust(10))
         dobEntry = ttk.Entry(clientDetails, textvariable=self.info.dob, width=10)
         dobButton = ttk.Button(clientDetails, text='Format')
         dateLabel = ttk.Label(clientDetails, text='   Test date : ')
@@ -118,7 +118,7 @@ class Header(ttk.Frame):
         labelheading = ttk.Label(header, text='No   Maybe   Yes  ', justify=tk.RIGHT)
         labelheading.pack(side='right')
 
-        header.pack(fill='both', expand=True, side=tk.TOP)
+        header.pack(fill='both', pady=5, expand=True, side=tk.TOP)
 
     def formatDateWidget(self):
         entrylist = [c for c in self.info.dob.get() if c != '/']
