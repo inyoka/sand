@@ -96,7 +96,7 @@ class Header(ttk.Frame):
         dobLabel = ttk.Label(clientDetails, text='DoB : '.rjust(10))
         dobEntry = ttk.Entry(clientDetails, textvariable=self.info.dob, width=10)
         dobButton = ttk.Button(clientDetails, text='Format')
-        dateLabel = ttk.Label(clientDetails, text='   Test date : ')
+        dateLabel = ttk.Label(clientDetails, text='Test : '.rjust(10))
         dateEntry = ttk.Entry(clientDetails, textvariable=self.info.date, width=10)
         dateButton = ttk.Button(clientDetails, text='Format', command=self.formatDateWidget)
 
