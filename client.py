@@ -4,7 +4,7 @@ import datetime
 from pathlib import Path
 from tkinter.filedialog import asksaveasfile, asksaveasfilename
 from tkinter.messagebox import askquestion
-from resources import questions, textLines, csvLines, windowLines, generateLines
+from resources import questions, textLines, csvLines, windowLines
 import csv, time, os
 
 
