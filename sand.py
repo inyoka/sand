@@ -144,7 +144,7 @@ class Questionnaire(ttk.Frame):
             self.var = tk.IntVar(value=-1)
             # width = 5
             line = '{:5}'.format(number, fill=' ')+' : '+question.strip()
-            label = tk.Label(self.radioFrame, font=('Consolas', 10), text='{: <75.75}'.format(line), pady=3)
+            label = tk.Label(self.radioFrame, font=('Consolas', sizeOfFont), text='{: <75.75}'.format(line), pady=3)
             if number % 5 == 0:
                 label.configure(background='#d0d0d0')
             label.grid(row=number, column=0, sticky=tk.W)
@@ -194,11 +194,18 @@ def upgrade():
                 print("Failed error: " + str(e))
                 showinfo('Upgrade Failed', str(e))
 
+def fontSize():
+    if platform.system() == 'Windows':
+        return 10
+    else :
+        return 12
+
 if __name__ == '__main__':
+    sizeOfFont = fontSize()
     root = tk.Tk()
     root.iconbitmap("icon.ico")
     default_font = font.nametofont("TkDefaultFont")
-    default_font.configure(family='Verdana',size=10, weight='normal')
+    default_font.configure(family='Verdana',size=sizeOfFont, weight='normal')
     root.wm_title('Strengths & Difficulties - SAND')
     root.resizable(width=False, height=False)
     MainApplication(root).pack(side='top', fill='both')
