@@ -1,4 +1,4 @@
-# SAND - Strengths and Difficulties Questionnaire
+# SAND - Python / TKinter Strengths and Difficulties Questionnaire (Cross Platform Mac & PC)
 
 ---
 
